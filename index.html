@@ -10,15 +10,11 @@
     --ink:#eef3f7; --muted:#b9c3cd;
     --bg-1:#0a0c0f; --bg-2:#0d1714; --bg-3:#0f0b16;
     --stroke:#232a33; --panel:rgba(15,18,22,.72);
-    --teal:#7be3ea; --teal-600:#47cfd9;
-    --lav:#c9a3ef; --lav-600:#a97bdf;
-    --emerald:#7ee7a6; --emerald-600:#36cc77;
-    --purple:#7c3aed; --purple-soft: rgba(124,58,237,.35);
+    --teal:#7be3ea; --lav:#c9a3ef; --emerald:#7ee7a6;
+    --purple:#a78bfa; --purple-strong:#7c3aed;
     --shadow:0 22px 68px rgba(0,0,0,.42);
   }
-  @media (prefers-color-scheme: dark){ :root{ color-scheme:dark; } }
   *{ box-sizing:border-box; }
-  html,body{ height:100%; }
   body{
     margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     color:var(--ink);
@@ -28,70 +24,416 @@
       radial-gradient(60% 60% at 15% 10%, rgba(169,123,223,.16), transparent 60%),
       radial-gradient(45% 60% at 92% 92%, rgba(54,204,119,.12), transparent 60%),
       linear-gradient(135deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
-    background-attachment: fixed, fixed, fixed, fixed, fixed; /* single background spans all pages */
+    background-attachment: fixed, fixed, fixed, fixed, fixed;
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
   a{ color:var(--teal); text-decoration:none; } a:hover{ text-decoration:underline; }
   .page{ max-width:1080px; margin:44px auto; padding:0 32px 60px; }
-  .hero{ display:flex; align-items:baseline; justify-content:space-between; gap:18px; padding:8px 0 14px; border-bottom:1px solid var(--stroke); }
-  .title{ font-weight:900; font-size:34px; letter-spacing:.2px; margin:0; }
-  .subtitle{ margin:0; color:var(--muted); font-weight:600; font-size:14px; }
-
-  .grid{ display:grid; grid-template-columns:320px 1fr; gap:32px; margin-top:22px; }
+  .hero{ display:flex; align-items:baseline; justify-content:space-between; gap:18px; padding:8px 0 14px;   position:relative; border-bottom:none; }
+  .title{ font-weight:900; font-size:34px; margin:0; }
+  .subtitle{ margin:0; color:var(--muted); font-weight:600; font-size:15px; }
+  .grid{ display:grid; grid-template-columns:340px 1fr; gap:36px; margin-top:24px; }
 
   /* Sidebar */
-  .side{ background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--stroke); border-radius:18px; padding:18px 18px 16px; box-shadow:var(--shadow); }
-  .block + .block{ margin-top:18px; }
-  .label{ font-size:12px; letter-spacing:.18px; text-transform:uppercase; color:#fff; opacity:.95; font-weight:850; margin-bottom:10px; }
+  .side{ background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--stroke); border-radius:18px; padding:20px; box-shadow:var(--shadow); }
+  .block + .block{ margin-top:26px; padding-top:22px; border-top:1px solid rgba(255,255,255,.08); } /* more spacing between sidebar sections */
+  .label{ font-size:13px; letter-spacing:.18px; text-transform:uppercase; color:#fff; opacity:.95; font-weight:850; margin-bottom:12px; }
   .kv{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13.5px; }
-  .kv + .kv{ margin-top:6px; } .kv svg{ width:14px; height:14px; opacity:.95; }
-  .skills{ color:var(--muted); font-size:13.5px; line-height:1.65; }
-  .stack{ color:var(--muted); font-size:13.5px; line-height:1.65; }
-  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
-  .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:850; font-size:12px; color:#0b0d0f; box-shadow:0 8px 28px rgba(0,0,0,.25); }
-  .teal{ background:linear-gradient(180deg,#98f2f7,#49d2db); }
-  .lav{ background:linear-gradient(180deg,#dbc3f6,#a97bdf); }
-  .em{ background:linear-gradient(180deg,#9af0bf,#36cc77); color:#062012; }
+  .kv svg{ width:16px; height:16px; display:block; flex:0 0 16px; }
+  .kv + .kv{ margin-top:8px; }
+  .skills,.stack{ color:var(--muted); font-size:14px; line-height:1.7; }
 
-  /* Main content */
-  .section{ padding:18px 0; }
-  .h3{ margin:0 0 14px; font-size:20px; font-weight:850; letter-spacing:.2px; background:linear-gradient(90deg,var(--lav),var(--teal)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 30px rgba(113,229,236,.22); }
-  .summary{ color:var(--ink); opacity:.92; line-height:1.7; font-weight:520; font-size:15px; }
+  /* Sidebar outlined pills */
+  .pills{ display:flex; flex-wrap:wrap; gap:8px; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:780; font-size:12px; color:#e9defc;
+         border:1px solid rgba(124,58,237,.55); background:linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,.06)); }
 
-  /* Stat tiles */
-  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:10px; }
-  .stat{ padding:16px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.68), rgba(15,18,22,.42)); box-shadow:var(--shadow); }
-  .stat.glow-purple{ box-shadow:0 0 0 1px var(--purple-soft), 0 12px 48px rgba(124,58,237,.22), var(--shadow); }
-  .stat h4{ margin:0; font-size:24px; font-weight:900; }
-  .stat p{ margin:4px 0 0; color:var(--muted); font-weight:600; font-size:13px; }
+  .ai-wins{ list-style:none; padding:0; margin:0; }
+  .ai-wins li{ margin:0 0 10px; line-height:1.7; color:#e9defc; font-size:15px; }
+  .ai-wins strong{ color:#fff; }
 
-  /* Experience cards */
-  .xp{ display:flex; flex-direction:column; gap:18px; }
-  .xp-card{ padding:18px 20px 10px; border-radius:18px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:var(--shadow); }
-  .xp-card.glow-purple{ box-shadow:0 0 0 1px var(--purple-soft), 0 12px 48px rgba(124,58,237,.22), var(--shadow); }
+  /* Main */
+  .section{ padding:22px 0; }
+  .h3{ margin:0 0 16px; font-size:22px; font-weight:850; letter-spacing:.2px; background:linear-gradient(90deg,var(--lav),var(--teal)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 30px rgba(113,229,236,.22); }
+  .summary{ color:var(--ink); opacity:.92; line-height:1.7; font-weight:520; font-size:15.5px; }
+
+  /* Refined KPI tiles */
+  .kpis{ display:grid; grid-template-columns:repeat(2, minmax(240px, 1fr)); gap:18px; }
+  .kpi{ position:relative; padding:18px 18px 16px; border-radius:20px;
+         background:linear-gradient(180deg, rgba(16,18,24,.55), rgba(16,18,24,.35)); overflow:hidden; }
+  .kpi:before{
+    content:""; position:absolute; inset:0; padding:1px; border-radius:22px;
+    background:linear-gradient(135deg, rgba(167,139,250,.5), rgba(101,225,232,.45));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: destination-out; mask-composite: exclude;
+    box-shadow: 0 12px 48px rgba(124,58,237,.16);
+  }
+  .kpi .top{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .kpi .ico{ width:30px; height:30px; border-radius:10px; display:grid; place-items:center;
+              background:radial-gradient(circle at 30% 30%, rgba(167,139,250,.35), rgba(167,139,250,.05));
+              border:1px solid rgba(167,139,250,.35); }
+  .kpi .stat{ font-size:28px; font-weight:900; line-height:1; }
+  .kpi .label{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#cfd6dd; font-weight:800; margin:4px 0 0; }
+  .kpi .desc{ margin:8px 0 0; color:#b9c3cd; font-size:13.5px; line-height:1.5; }
+
+  /* Experience */
+  .xp{ display:flex; flex-direction:column; gap:22px; }
+  .xp-card{ padding:20px 22px 12px; border-radius:18px; border:1px solid #262c35; background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:0 22px 68px rgba(0,0,0,.36); }
+  .xp-card.glow{ box-shadow:0 0 0 1px rgba(124,58,237,.35), 0 12px 48px rgba(124,58,237,.22), 0 22px 68px rgba(0,0,0,.36); }
   .head{ display:flex; align-items:center; gap:12px; }
-  .logo{ width:30px; height:30px; border-radius:9px; background:#1e232b; border:1px solid #2b323c; display:grid; place-items:center; font-size:11px; font-weight:900; color:#cfd6dd; letter-spacing:.3px; }
+  .logo{ width:20px; height:20px; display:inline-block; vertical-align:middle; border-radius:4px; overflow:hidden; box-shadow:none; outline:none; }
+  .logo img{ width:100%; height:100%; display:block; }
   .role{ margin:0; font-weight:880; font-size:16px; }
-  .meta{ margin:3px 0 8px; color:var(--muted); font-weight:640; font-size:13px; }
-  .scope{ margin:0 0 10px; color:#cfe9f0; font-weight:640; font-size:13px; }
+  .meta{ margin:3px 0 8px; color:#b9c3cd; font-weight:640; font-size:13px; }
+  .scope{ margin:0 0 10px; color:#cfe9f0; font-weight:640; font-size:15px; }
   ul{ margin:10px 0 12px 20px; padding:0; }
-  li{ margin:0 0 7px; line-height:1.55; font-size:14px; }
-  .quote{ margin:10px 0 6px; font-style:italic; font-weight:620; font-size:13.5px; color:#d8f7f9; padding:12px 14px; border-left:2px solid var(--teal-600); background:linear-gradient(180deg, rgba(10,18,22,.6), rgba(10,18,22,.3)); border-radius:12px; }
+  li{ margin:0 0 8px; line-height:1.7; font-size:15px; }
+  .quote{ margin:10px 0 6px; font-style:italic; font-weight:620; font-size:13.5px; color:#d8f7f9; padding:12px 14px; border-left:2px solid rgba(124,58,237,.5); background:linear-gradient(180deg, rgba(10,18,22,.6), rgba(10,18,22,.3)); border-radius:12px; }
 
-  /* AI section */
-  .ai-panel{ padding:18px 20px 16px; border-radius:18px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:0 0 0 1px var(--purple-soft), 0 16px 56px rgba(124,58,237,.22), var(--shadow); }
-  .ai-tools{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-  .ai-pill{ border:1px solid rgba(124,58,237,.45); padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px; color:#e9defc; background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.12)); box-shadow:0 10px 40px rgba(124,58,237,.18); }
-
-  @page{ size:A4; margin:14mm; } /* print friendly but not forcing 2 pages */
+  @page{ size:A4; margin:14mm; }
   @media print{ body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; } a{ color:var(--teal) !important; text-decoration: underline; } }
+
+  /* ---------- Responsive tweaks ---------- */
+  .title{ font-weight:900; font-size:clamp(26px, 4.2vw, 36px); margin:0; }
+  .subtitle{ font-size:clamp(12px, 1.8vw, 14px); }
+
+  @media (max-width: 960px){
+    .page{ padding: 0 20px 48px; }
+    .grid{ grid-template-columns: 1fr; gap:22px; }
+    .side{ position:relative; top:0; border-radius:16px; }
+    .kpis{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .xp{ gap:18px; }
+  }
+  @media (max-width: 680px){
+    body{ background-attachment: scroll, scroll, scroll, scroll, scroll; } /* avoid mobile jank */
+    .page{ padding: 0 16px 40px; }
+    .hero{ flex-direction: column; align-items:flex-start; gap:6px; }
+    .grid{ grid-template-columns: 1fr; gap:18px; }
+    .kpis{ grid-template-columns: 1fr; }
+    .xp-card{ padding:16px 16px 10px; }
+    .role{ font-size:15.5px; }
+    .meta, .scope, .skills, .stack{ font-size:14px; }
+    .pill{ padding:6px 10px; font-size:12px; }
+    .kv{ gap:12px; } .kv a{ word-break: break-word; }
+    .logo{ width:18px; height:18px; }
+    .label{ font-size:12.5px; }
+  }
+
+
+  /* ---------- Accessibility & Print Tweaks ---------- */
+  @media (prefers-reduced-motion: reduce){
+    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+  @media print{
+    @page { size: A4; margin: 12mm; }
+    :root{ color-scheme: light; }
+    body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* Keep dark theme but simplify backgrounds for crisp output */
+    body{ background: #0a0c0f; }
+    .side, .xp-card, .kpi{ box-shadow: none !important; }
+    .h3{ text-shadow: none; }
+    /* Page-break controls */
+    .xp-card, .kpi{ break-inside: avoid; page-break-inside: avoid; }
+    .section{ break-inside: avoid; page-break-inside: avoid; }
+    /* Ensure links remain legible and underlined */
+    a{ color:#7be3ea !important; text-decoration: underline !important; }
+  }
+  /* Slight contrast boost for small text */
+  .meta{ color:#c3ccd6; }
+  .skills, .stack{ color:#c2cbd5; }
+
+
+  /* ---------- Controls ---------- */
+  .controls{
+    position: sticky; top: 0; z-index: 10;
+    display:flex; gap:10px; justify-content:flex-end; align-items:center;
+    padding:10px 0; backdrop-filter: blur(8px);
+  }
+  .controls button, .controls a{
+    font-family: inherit; font-size:12px; font-weight:700; letter-spacing:.2px;
+    border:1px solid rgba(124,58,237,.45);
+    background: linear-gradient(180deg, rgba(124,58,237,.12), rgba(124,58,237,.06));
+    color:#e9defc; padding:6px 10px; border-radius:999px; text-decoration:none; cursor:pointer;
+  }
+  .controls a{ display:inline-flex; align-items:center; }
+  @media print{ .controls{ display:none; } }
+
+  /* ---------- Light Print Theme ---------- */
+  @media print{
+    html[data-print-theme="light"] body{ background: #fff !important; color:#111 !important; }
+    html[data-print-theme="light"] .side,
+    html[data-print-theme="light"] .xp-card,
+    html[data-print-theme="light"] .kpi{ background:#fff !important; border-color:#ccc !important; }
+    html[data-print-theme="light"] .h3{ color:#000 !important; -webkit-text-fill-color: initial; text-shadow:none; background: none; }
+    html[data-print-theme="light"] a{ color:#0645ad !important; }
+  }
+
+
+  /* ---------- Live light theme preview (screen + print) ---------- */
+  html[data-print-theme="light"] body{
+    background: #ffffff;
+    color: #0a0c0f;
+  }
+  html[data-print-theme="light"] .side,
+  html[data-print-theme="light"] .xp-card,
+  html[data-print-theme="light"] .kpi{
+    background:#ffffff;
+    border-color:#e6e6e6;
+    box-shadow:none;
+  }
+  html[data-print-theme="light"] .h3{
+    color:#1c1f23; -webkit-text-fill-color: initial; text-shadow:none; background:none;
+  }
+  html[data-print-theme="light"] .label{ color:#2b3036; }
+  html[data-print-theme="light"] .meta,
+  html[data-print-theme="light"] .skills,
+  html[data-print-theme="light"] .stack{ color:#3a434d; }
+  html[data-print-theme="light"] a{ color:#0645ad; }
+  html[data-print-theme="light"] .pill{
+    border-color:#d7c8f6; background:linear-gradient(180deg, rgba(124,58,237,.06), rgba(124,58,237,.03));
+    color:#4a3e6e;
+  }
+  html[data-print-theme="light"] .quote{
+    background:#f7f8fa; border-left-color:#d7c8f6; color:#222;
+  }
+  html[data-print-theme="light"] .controls button, 
+  html[data-print-theme="light"] .controls a{
+    border-color:#d7c8f6; color:#4a3e6e; background:linear-gradient(180deg, rgba(124,58,237,.08), rgba(124,58,237,.04));
+  }
+
+
+  /* ---------- Improved Light Theme Contrast Overrides ---------- */
+  html[data-print-theme="light"]{
+    --ink:#111111;
+    --muted:#334155;  /* slate-600 */
+    --stroke:#e5e7eb; /* gray-200 */
+  }
+  html[data-print-theme="light"] body{
+    background:#ffffff;
+    color:#111111;
+  }
+  html[data-print-theme="light"] .page{ color:#111111; }
+  html[data-print-theme="light"] .subtitle{ color:#475569; }
+  html[data-print-theme="light"] .summary,
+  html[data-print-theme="light"] p,
+  html[data-print-theme="light"] li{ color:#111111; }
+  html[data-print-theme="light"] .meta,
+  html[data-print-theme="light"] .skills,
+  html[data-print-theme="light"] .stack,
+  html[data-print-theme="light"] .ai-wins li,
+  html[data-print-theme="light"] .kv{ color:#334155; }
+  html[data-print-theme="light"] .label{ color:#111111; }
+  html[data-print-theme="light"] .h3{
+    color:#111111; -webkit-text-fill-color: initial; text-shadow:none; background:none;
+  }
+
+  html[data-print-theme="light"] .side,
+  html[data-print-theme="light"] .xp-card,
+  html[data-print-theme="light"] .kpi{
+    background:#ffffff;
+    border-color:#e5e7eb;
+    box-shadow:none;
+  }
+
+  /* KPI internals */
+  html[data-print-theme="light"] .kpi .stat{ color:#111111; }
+  html[data-print-theme="light"] .kpi .label{ color:#334155; }
+  html[data-print-theme="light"] .kpi .desc{ color:#334155; }
+
+  /* Links & icons */
+  html[data-print-theme="light"] a{ color:#0645ad; }
+  html[data-print-theme="light"] .kv svg{ stroke:#7c3aed; } /* lavender accent keeps identity but readable */
+
+  /* Pills and quotes */
+  html[data-print-theme="light"] .pill{
+    border-color:#d9d6f0;
+    background:linear-gradient(180deg, rgba(124,58,237,.05), rgba(124,58,237,.02));
+    color:#3b2867;
+  }
+  html[data-print-theme="light"] .quote{
+    background:#f5f7fb;
+    border-left-color:#d0b6ff;
+    color:#0f172a;
+  }
+
+  /* Dividers in sidebar more subtle on light */
+  html[data-print-theme="light"] .block + .block{
+    border-top-color:#e5e7eb;
+  }
+
+
+  /* --- Ensure AI Leadership bullets switch to dark text in light theme --- */
+  html[data-print-theme="light"] .ai-wins li{ color:#334155; }
+  html[data-print-theme="light"] .ai-wins li strong{ color:#111111; }
+
+
+  /* ---------- Subtle Motion & Micro‑interactions ---------- */
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  /* Slow drifting background for depth */
+  body{
+    background-size: 120% 120%, 120% 120%, 120% 120%, 120% 120%, 100% 100%;
+    animation: bgFloat 60s ease-in-out infinite;
+  }
+  @keyframes bgFloat{
+    0%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
+    50%{ background-position: 78% 8%, 10% 86%, 17% 12%, 90% 94%, 0 0; }
+    100%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
+  }
+
+  /* Headings: gentle gradient shimmer */
+  .h3{
+    background-size: 200% 100%;
+    animation: shimmer 16s linear infinite;
+  }
+  @keyframes shimmer{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 200% 50%; }
+  }
+
+  /* KPI tiles: hover lift + soft highlight */
+  .kpi{
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .kpi:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(124,58,237,.16);
+  }
+
+  /* Experience cards: reveal on scroll */
+  .reveal{ opacity:0; transform: translateY(6px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.is-visible{ opacity:1; transform: translateY(0); }
+
+  /* Links: animated underline */
+  a{
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size .25s ease;
+  }
+  a:hover{ background-size: 100% 1px; text-decoration: none; }
+
+  /* Pills: subtle glow on hover */
+  .pill{ transition: box-shadow .25s ease, border-color .25s ease; }
+  .pill:hover{ box-shadow: 0 0 0 2px rgba(124,58,237,.18); border-color: rgba(124,58,237,.7); }
+
+  /* Logos: slight fade-in and nudge on parent hover */
+  .head .logo img{ opacity:.9; transition: opacity .25s ease, transform .25s ease; }
+  .xp-card:hover .logo img{ opacity:1; transform: translateY(-1px); }
+
+
+  /* ---------- Gradient Sweep Under Title ---------- */
+  .subtitle{
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+  }
+  
+  @keyframes underlineSweep{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 200% 50%; }
+  }
+
+
+  /* ---------- Animated gradient sweep line under main header ---------- */
+  .hero{ position: relative; }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:-1px;
+    height:2px;
+    background: linear-gradient(90deg, #7c3aed, #06b6d4, #a855f7);
+    background-size: 200% 100%;
+    animation: headerSweep 7s linear infinite;
+    border-radius:2px;
+  }
+  @keyframes headerSweep{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 200% 50%; }
+  }
+  /* Light theme: keep same gradient for consistency */
+  html[data-print-theme="light"] .hero::after{
+    opacity:.9;
+  }
+
+  /* ---------- Initial border reveal for key boxes ---------- */
+  .side, .kpi, .xp-card{ position:relative; }
+  
+  }
+  /* Light theme tweak: softer border colors */
+  html[data-print-theme="light"] .trace-border::before{
+    background: linear-gradient(135deg, rgba(124,58,237,.45), rgba(6,182,212,.45));
+    opacity:.7;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .trace-border::before{ animation:none; transform:none; }
+  }
+
+
+  
+
+  
+  }
+
+
+  /* ---------- Pen-traced animations (underline + box perimeter) ---------- */
+  :root{ --pen-dark: #c9a3ef; --pen-light: #7c3aed; }
+
+  /* Underline holder under the main title */
+  .title-penline{
+    position: relative;
+    height: 6px;
+    margin-top: 6px;
+  }
+  .title-penline .pen-svg line{
+    stroke: var(--pen-dark);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  html[data-print-theme="light"] .title-penline .pen-svg line{ stroke: var(--pen-light); }
+
+  /* Box overlay SVG */
+  .pen-svg{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    pointer-events:none;
+  }
+  .pen-svg rect{
+    fill: none;
+    stroke: var(--pen-dark);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  html[data-print-theme="light"] .pen-svg rect{ stroke: var(--pen-light); }
+
+  /* Dash animation */
+  .pen-draw{ animation: penDash 1.15s ease-out forwards; }
+  @keyframes penDash{ to { stroke-dashoffset: 0; } }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .pen-draw{ animation: none; }
+  }
+
 </style>
 </head>
 <body>
+  
+<div class="controls" role="region" aria-label="Downloads and print options">
+  <button id="togglePrintTheme" aria-pressed="false" aria-label="Toggle print theme (dark/light)">🖨️ Print Theme</button>
+  <a id="downloadATS" href="James_Ward_CV_ATS_Plain.html" aria-label="Download ATS/plain CV">⬇️ ATS Version</a>
+</div>
+
 
   <div class="page">
     <header class="hero">
       <h1 class="title">James Ward</h1>
+<div class="title-penline" aria-hidden="true"></div>
       <p class="subtitle">Head of Website @ Personio · B2B SaaS · Marketing & Product Leader</p>
     </header>
 
@@ -100,51 +442,48 @@
       <aside class="side">
         <div class="block">
           <div class="label">Contact</div>
-          <div class="kv">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="1.3"/><path d="M3 7l9 6 9-6" stroke-width="1.3"/></svg>
-            <a href="mailto:jamesward100@hotmail.co.uk">jamesward100@hotmail.co.uk</a>
-          </div>
-          <div class="kv">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="1.3"/><path d="M2 12h20M12 2a16 16 0 010 20" stroke-width="1.3"/></svg>
-            <a href="https://www.linkedin.com/in/jameswarddigital">linkedin.com/in/jameswarddigital</a>
-          </div>
-          <div class="kv">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l7 7-7 13L5 9l7-7z" stroke-width="1.3"/></svg>
-            <span>United Kingdom</span>
-          </div>
+          <div class="kv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg> <a href="mailto:jamesward100@hotmail.co.uk">jamesward100@hotmail.co.uk</a></div>
+          <div class="kv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 13.5a4.5 4.5 0 0 1-6.364 0 4.5 4.5 0 0 1 0-6.364l2-2a4.5 4.5 0 0 1 6.364 0"/><path d="M13.5 10.5a4.5 4.5 0 0 1 6.364 0 4.5 4.5 0 0 1 0 6.364l-2 2a4.5 4.5 0 0 1-6.364 0"/></svg> <a href="https://www.linkedin.com/in/jameswarddigital">linkedin.com/in/jameswarddigital</a></div>
+          <div class="kv"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg> United Kingdom</div>
         </div>
 
         <div class="block">
           <div class="label">Key Skills</div>
           <div class="skills">
-            Web Product Leadership • SEO & CRO • Growth Marketing • Demand Generation • AI & LLM Optimisation • Team Leadership
+            Web Product Leadership • SEO & CRO • Growth Marketing • Demand Generation • AI & LLM Optimisation • Team Leadership • Paid Media Strategy • Campaign Strategy • International GTM
           </div>
+        </div>
+
+        <div class="block">
+          <div class="label">AI Leadership & Wins</div>
+          <ul class="ai-wins">
+            <li><strong>AI‑Powered CRO:</strong> LLM variants + auto‑analysis → <strong>+100% CVR YoY</strong>.</li>
+            <li><strong>SEO / LLM Optimisation:</strong> generative keyword expansion & scoring → <strong>+50% organic MQL</strong>.</li>
+            <li><strong>Automation Bots:</strong> community, reporting assistant, test prioritisation.</li>
+            <li><strong>Visibility/Monitoring:</strong> custom tools for real‑time signals.</li>
+            <li><strong>AI Board Member:</strong> Personio.</li>
+          </ul>
         </div>
 
         <div class="block">
           <div class="label">AI Tools Used</div>
-          <div class="stack">
-            <div class="badges">
-              <span class="pill lav">ChatGPT</span>
-              <span class="pill lav">Gemini</span>
-              <span class="pill lav">Langdock</span>
-              <span class="pill lav">Cursor</span>
-              <span class="pill lav">Sora</span>
-              <span class="pill lav">Veo</span>
-              <span class="pill lav">GA4 Predictive</span>
-              <span class="pill lav">Custom Bots</span>
-              <span class="pill lav">AI Monitoring/Visibility</span>
-            </div>
+          <div class="pills">
+            <span class="pill">ChatGPT</span>
+            <span class="pill">Gemini</span>
+            <span class="pill">Langdock</span>
+            <span class="pill">Cursor</span>
+            <span class="pill">Sora</span>
+            <span class="pill">Veo</span>
+            <span class="pill">GA4 Predictive</span>
+            <span class="pill">Custom Bots</span>
+            <span class="pill">AI Monitoring</span>
           </div>
         </div>
 
         <div class="block">
-          <div class="label">KPI Highlights</div>
-          <div class="badges">
-            <span class="pill teal">+100% Conversion</span>
-            <span class="pill lav">+50% Organic MQL</span>
-            <span class="pill em">Double‑digit Pipeline</span>
-            <span class="pill em">575% Traffic Growth</span>
+          <div class="label">General Tools</div>
+          <div class="stack">
+            GA4 · Looker · Hotjar · HubSpot · Marketo · Salesforce (SFDC) · Contentful · Next.js · React · Node · Vercel · CloudFront · GitHub · Figma · Jira
           </div>
         </div>
       </aside>
@@ -156,71 +495,116 @@
           <p class="summary">Strategic growth and web product leader with extensive experience building high‑performing teams, scaling demand generation, and delivering award‑winning digital products. Proven record in B2B SaaS, driving double‑digit revenue growth, website transformation, and AI‑driven marketing innovation.</p>
         </section>
 
-        <section class="section">
-          <div class="stats">
-            <div class="stat glow-purple">
-              <h4>+100% CVR</h4>
-              <p>AI‑powered CRO experimentation uplift YoY at Personio.</p>
+        <!-- KPI tiles (refined) -->
+        <section class="section" id="kpi-stats">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="top">
+                <div class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
+                    <path d="M3 21h18M7 14l4-4 3 3 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17 7h6v6" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="stat">+100%</div>
+                  <div class="label">Conversion</div>
+                </div>
+              </div>
+              <div class="desc">AI‑powered CRO experimentation uplift YoY at Personio.</div>
             </div>
-            <div class="stat glow-purple">
-              <h4>+50% MQL</h4>
-              <p>Organic MQL growth via SEO ownership & LLM optimisation.</p>
+
+            <div class="kpi">
+              <div class="top">
+                <div class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
+                    <circle cx="9" cy="7" r="3"/><path d="M2 21c0-3.866 3.134-7 7-7"/><circle cx="17" cy="9" r="3"/><path d="M14 21c0-3.866 3.134-7 7-7"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="stat">+50%</div>
+                  <div class="label">MQL</div>
+                </div>
+              </div>
+              <div class="desc">Organic MQL growth via SEO ownership & LLM optimisation.</div>
             </div>
-            <div class="stat">
-              <h4>Double‑Digit</h4>
-              <p>Regional pipeline growth (Slack & ADP).</p>
+
+            <div class="kpi">
+              <div class="top">
+                <div class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
+                    <rect x="3" y="4" width="6" height="16" rx="2"/><rect x="10" y="8" width="6" height="12" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="stat">+40%</div>
+                  <div class="label">Pipeline</div>
+                </div>
+              </div>
+              <div class="desc">Regional pipeline growth across Slack & ADP.</div>
             </div>
-            <div class="stat">
-              <h4>+575% Traffic</h4>
-              <p>LexisNexis growth through SEO/CRO & platform launches.</p>
+
+            <div class="kpi">
+              <div class="top">
+                <div class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
+                    <path d="M4 19V5m5 14V3m5 16V9m5 10V13" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="stat">+575%</div>
+                  <div class="label">Traffic</div>
+                </div>
+              </div>
+              <div class="desc">LexisNexis growth through SEO/CRO & platform launches.</div>
             </div>
           </div>
         </section>
 
+        <!-- Experience -->
         <section class="section">
           <h3 class="h3">Experience</h3>
           <div class="xp">
-
-            <article class="xp-card glow-purple">
+            <article class="xp-card glow">
               <div class="head">
-                <div class="logo">PS</div>
+                <span class="logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw0NDQ0NDQ0PDQ0NDQ0NDQ0NDQ8NDQ0NFREWFhYRFRUYHSggGBoxHRMVITMhJSktLi46Fx8/ODctOyguLjcBCgoKDg0OFQ8PFy4dFR0rKy0rKystLSstLi0rLS0tKysrKysrKy0uLS0tLTctMi43Ky0tKystNy0tLSstKy0rK//AABEIAOEA4QMBIgACEQEDEQH/xAAcAAEAAwEAAwEAAAAAAAAAAAAAAQIDBwUGCAT/xABHEAACAQIDAQcPCgUFAQAAAAAAAQIDEQQFEgYHITFTYXGTExYXNUFRc3SBkZKxsrPSFCIjJEJUY8HR0zI0Q3KCM1JiovAl/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAECAwT/xAAeEQEBAQACAwEBAQAAAAAAAAAAARECAxITMSFBUf/aAAwDAQACEQMRAD8A6wADi9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACABIIAEggASCABIIAEggASAAAAAAAAAAAAAAgFEkAAAAABBStVhTjKdSUYQirynOSjGK77b3kFaA9EzvdUy3Dtww6qY6a7tFKnQv3uqS4eeKaPVMVuwY2T+hweGpLudUnVrPzpx9R0nTyv8HZgcQ7Lea8Tg+irfuDst5rxWD6Kt+4a9HIdvBxDst5rxWD6Kt+4Oy3mvFYPoq37g9HIdvBxDst5rxOD6Kt+4Oy3mvE4Poq37g9HMdvBzfZXdVo4mpGhj6McLObUYV6cnLDuT4FJPfhz3a79jo5z5cLx+iQQLmRIIJAAAASQAiQQCCQQAAIBVAQAJuCLn5swxtLDUKuIrS0UqMJVKku9FLuLuvkLmj8O0+0eGyvDuviHdtuNKjG3VK9S38MfzfAjhG1G1eMzWpfET00U708LTbVGmu5vfbl/wAn5LcBhtTn9bM8XPE1rqO/GhSveNGjfeiuXut91+Q8Sezr6px/b9AAHYAAAAAAAAQzu25VtJ8uwPyerK+JwSjSk27yqUP6c+V2Wl/28pwo8xslns8sx1HFRu4ReivBf1MPK2uPPvKS5Yo59nDy4j6TBlQrQqQhUpyU6dSMZwlF3UotXTXkLnhwWBUkYJJKk3AkEAgsCABIIAEXFyouXBNyLkNkXLgtc5ju1Zy4UsNl8Jf6z+UV0nw04O1OL5HK7/wR0y5wLdPxbrZzi7veoqjQjyKNNN/9pSOvTx3kPVQAewAAAAim3ZJt8Nkru3MadQqcXP0JfoQZg06hU4ufoS/QdQqcXP0JfoNGYNOoVOLn6Ev0HUKnFz9CX6DRmDTqFTi5+hL9Ck4SjbVFxvwak4384HXdx7aPqtGeW1ZfSUE6mGb4ZUG/nQ/xb80uQ6Tc+Ycux1bC16WIoT6nWoy1wla9nazTXdTTaa7zZ1DAbrtHQvlOCqqqlvvDyhOnLlSm0482/wA55+zqu7FdOuTc5z2XcD90xfmofGOy7gPumL81D4zn6+X+Do9xc9V2a28y/Mqio05To13fTRxEYxlUsrvQ02m+S9+Q9ouYvGz6LXJuVuCC9wVJuTESCAMFbkXIbIbNYqWyLkNkXLipufO+3T/+vmPjU/Uj6GbPnnbjttmPjU/Ujv0/ajwYAPQgfsybL5YzFYfCwemVerGnqtfSvtS8iTfkPxnsO5724wHhanuZkvwdvyTJsLgKUaOFpRpxS+dKydSpL/dOXDJnkNRncXPL+ttNQ1GdxcYY01DUZ3FxhjTUZ4mjTrQlTqwhVpyTUoVIqcJJ9xpjULjBwzdF2dp5bjUqCth8RB1aULt9TadpQu+5wNf3ch6sdI3an9Ll/gsT7VM5uejhdkZoADaJp1ZU5RqU5OFSnJVITXDGcXdNeVH07gK7q0aNV7zqUqdRpdxyin+Z8vz4HzM+mMnf1XC+L0PdxOHdPix++5NylybnnxV7kplExcmIvckpcDBS5DZFyrZuRVrkNlWyrZcXF2z57237bZh4zP1I+gGz5+227a5h4zP8jr1T9qV4UAHdkPYNz/txgPC1PczPXzz+wPbfA+Fn7qZL8WO86hqM9RGo4Y6Y11C5lqGouDXULmWoahg1uTqMdROoYY5juzv6XL/B4n2qZzk6JuyP6XAeDxPtUznZ14/HO/QAGkVnwPmZ9K5O/quF8Xoe7ifNU+B8zPpLJ39Vw3i9D3cTl2/xqP3plkzK5KZwxWqZKZmmWTJYi4KaiSYM2yrZVsq5HSRpZsq2VbKuRrFXbOBbadtcw8Zn6kd4cjg22fbTH+Mz9SOnCM8nhgAdGA89sF22wPhKnupngTzuwnbbBeEn7qZFjuWojUZahqJ4u2NdQ1GOoah4mNtQ1GOoah4mNtROox1DUPExzjdhf0uA8HiPapnPToG66/pcD4PEe1TOfljly+gAKyrPgfMz6Oyh/VcN4vQ93E+cZ8D5mfROUS+q4bxej7CMc43xeRTLJmCkXUjlY02TJTMlIsmZxGlyTO5BMMZtlHIhso5HWRrFnIq5FHIq5G5xXF3I4Vtj20x/jE/Ujt7keLxOQ4CrOVSpg6E5zeqc5UouUpd9s1Il464YDtr2by37jhuhiR1t5b9xw/QxNYz664mec2H7a4Lwk/dTOndbeW/ccP0MTTDZJgaM41KWEo06kN+M4U4xlF2tvPyl8VnXXltRGoy1Eai+LpjXUNRlqI1F8VxtqGoy1DUPEbaiVIw1E6ieJjn26y71cD4PEe1A9CPed1WadbBxvvqlWbXI5RS9T8x6MYrz8/oAAyrPgfMz6FymX1bDeAo+wj56nwPmZ9AZVL6th/AUfYRLHTg8ipEqRipFlIzeLeN1IumYKRZSMXimNdQM9QGDKUijkVcirkdZGkuRVyKORVyNyLizkVcijkVcjUi4u5FdRRyKuRrxXGjkRqM9RGo1hjTUeu43bTBUKtSjU6trpTcJaaScdS7zued1HHtp+2GM8Yqeszy/GedvGPfev3L/AMfoV8Q6/cv/AB+hXxHLwY865eyuodfuX/j9CviHX7l/4/Qr4jl4HnT2V1Hr+y/8foV8Rlid0HBRi3Tp16k+5FxjTjfld3ZeRnMwTzp7K/bnGZ1cZXnXrW1SslGP8MILgiv/AHdZ+I8hkOUzxuIjQg9Ks5VJ2v1OmuF8/AlznScLsnltOKj8mjVdt+dVynOT9XmE42px4Xl+uTA7Atmct+5UfRf6llszlv3Kj6LL6616q5Nl2Aq4utDD0YuU6jtyQj3ZvvJcJ3XDwVOEILghCMFfvJJfkfiwGAw+GTWHo06KfD1OCi5c77p+xSHi3x4Y3Ui6kfnUi6kSxcfoUiykYRkXTMWI2uDPUDOIxlIzciHIpJneRvFnIo5FXIo5G5FXcirkUcirZqRcWuRqKORGo1irtlWylyLlwaXOQ7S/z+M8Yqes61c5JtJ/P4vxip6zl3fI5d3yPHAA4POAAAAed2Pyn5VilKavRoWqVO9KX2YedXfIn3xJtxZNuPc9iso+SYZTmrVsRapO/DGNvmw8zvztnsNzK5Nz1zjkx7JxyY2TJuYqRbUMMbKRZSMUyyZmxMbqRaMjBSLpmbExupF1IwUi6kYsTG2oGdwZxGLZRyIcijZ2kbS2UbIbKNm5FWbKtlWyrkakXFmyNRRsrc1ir3IbK3IuXBfUco2j/nsX4ep6zqdzw+K2awVapOrUpNzqScpNVaivJ8iZz7Ou8pMc+zheU/HMwdH60sv4mXTVfiHWll/Ey6ar8Rx9HJy9PJzgHR+tLL+Jl01X4h1p5fxMumq/EPRyPTyc7oUZ1Jxp04uc5tRjGKu2zqWz2WLB4aFLec38+rJfaqPh8i3l5C+X5ZhsNfqFKNNvecldza7zk99n7bnbr6vH9v114dfj+1e5NzNMm50x0aXLJmSZKZMG2osmYplkzNiNky8ZGCkXTM2I3TLRZgmXTMWI2uDPUCYjJso2GzNs6yNJbKtkNlGzcirNlWyrZFzWKm5DZFyGy4qbi5W5Fy4q1xcpcXGC9xcpcXGC9xcpcXLgvcXKXFxg0uLlLk3JiL3JuUuSmTBomWTMkyUyYNUy6ZimWTM2I2UjRMwTLpmLGWtwU1AmDJso2JMo2dJGhshshlWzUipbIuQ2VbNYLXK3FyLlVJFyLgom4uQQME3BAuFSLkXAFrgqSESTcqBgtclMoSQaE3M0y1yIumWTM0yyZMGqZdMxTLpmLEaagVuQTExWRRgGoqGVANqqyGAWKggAoMgAAADSjIAIBKAAAACQARAkAAiUSCUSiyAIiyLIAyJABEf/2Q==" alt="Personio logo"></span>
                 <h4 class="role">Head of Website (Contract → Permanent) — Personio</h4>
               </div>
               <div class="meta">Nov 2024 – Present · London, UK</div>
               <p class="scope"><strong>Leadership & scope:</strong> Owns web product across Design/UX, FE/BE, SEO, content & CRO. Drives strategy, delivery and experimentation. Partner to Sales, Product and RevOps. Member of the AI Board.</p>
               <ul>
                 <li>Launched the largest website relaunch in Personio’s history; re‑architected IA, design system, and performance.</li>
-                <li><strong>AI‑powered CRO:</strong> experimentation framework for copy, IA, and UX variants with automated analysis → <strong>+100% sitewide CVR YoY</strong>.</li>
-                <li><strong>SEO/LLM optimisation:</strong> generative content workflow and technical SEO improvements → <strong>+50% organic MQL YoY</strong>.</li>
+                <li><strong>AI‑powered CRO:</strong> experimentation framework for copy/IA/UX variants → <strong>+100% sitewide CVR YoY</strong>.</li>
+                <li><strong>SEO/LLM optimisation:</strong> generative content workflow & technical SEO → <strong>+50% organic MQL YoY</strong>.</li>
                 <li>Restructured and elevated the web team; instituted product rituals and analytics foundations.</li>
-                <li>Owner of SEO & AI optimisation; improved share of voice and reduced drop‑off across key journeys.</li>
               </ul>
               <div class="quote">“This is the first time in the history of Personio that I'm truly proud of our new website.” — Hanno Renner, CEO</div>
             </article>
 
             <article class="xp-card">
               <div class="head">
-                <div class="logo">SL</div>
+                <span class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAfCAMAAACxiD++AAAAllBMVEVHcEw2xfE2xfA2xfA1xfA2yPItt30utn0utn01xfA1xfA1xfA1xfEttn0utn01xvE2wsUutn02xfEutn03xfAstX0stn02xfDhSUzgHVngHVrgHVrhHVngHVrgHVjssi3ssi7ssi7rsi3gHlrgHlrgHlrgHVrfHljssi3ssi7tsi7gHlrssi3gHFrssi7rsC7rsS/tsS0S3plWAAAAMnRSTlMAc+D/wjlU4P9oSNaHlLWYCM2jriMqevYIUaWzQoUqOJCmTez/Y9QbyP/ndLKM1Shdc67V0pYAAAE1SURBVHgBdI8DEgRBEARrNbbu/v/RtZGBVg4aB1XdtN0YCWWU4AlvRmoxzUdeDNlMKGg2YfCgngXrzCx4PAirEL+E1E5C+BaQRFVV4lVwGwDOf3Dr/rJekaE7CTlST7b9N9qETchzkrf1NtQulDW65oLF9kk9Rwq05/mPrwO9xgiI+jQPCTlOF2Q3CzRjNJTdqBKAXHTJcETrKX7x/x/5UAhZGEAMAgEsY1RwqPv+w73U+xocgl2cJEkqQCSJVIA2dsM4IPbhQYbIH01SoMvqoNaQh0VI57bBVGdaorAKfm472otQbyeIaBPsRSghDvPdu6D7s6CBOM1lwS4wmH6lbDU7m7BFYONdGI0x0/BN2H7RDn+EyvDGVSh5I58Fucah5Y05HrnC1U9h4B2R54kCXFuf3ngHXY83KaRzhbUAAAAASUVORK5CYII=" alt="Slack logo"></span>
                 <h4 class="role">Director of Demand Generation, EMEA — Slack</h4>
               </div>
               <div class="meta">Jan 2023 – Mar 2024</div>
               <p class="scope"><strong>Leadership & scope:</strong> Led regional demand team (integrated campaigns, performance media, digital events & enablement). Partnered with Sales on ICP, messaging and funnel orchestration.</p>
               <ul>
                 <li>Built the first pan‑EMEA integrated campaign model for major launches (Slack AI, Slack Sales Elevate).</li>
-                <li>Improved SEM/PLG efficiency and <strong>reduced CPAO</strong> while increasing pipeline contribution.</li>
+                <li>Owned <strong>paid media</strong> & <strong>campaign strategy</strong> with sales orchestration; improved SEM/PLG efficiency and <strong>reduced CPAO</strong> while increasing pipeline contribution.</li>
                 <li>Operationalised audience, message, and channel playbooks across the region.</li>
               </ul>
             </article>
 
             <article class="xp-card">
               <div class="head">
-                <div class="logo">ADP</div>
+                <span class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAclBMVEX//////fzYXlnbZ2PopKL88/PYWlTZYFvcb2vvv73jj4zOAADgg3/hiITddXHMAADwxML66+vpqabz0tH12Nf01dTii4jyzsz23dz45eTklpPSNSzxycjRLSTffHjrsK7UQDnVR0DturjmnZrQJRrQHxJ85eBQAAAAzElEQVR4AeWPBXbEMAxEx9Ss7cYTZk56/yN2Ge6w/6GepAF8GULeUNrgJ5LyZD+Xzv9eiINn4lUcK0bvXcoMeWFsiYq+bmzasnstZQ9EYSBHEVhPZD17PBiYA6cAkS5RSgso1dI8lqMS/coAwBKNcAvnhOK+0zTWdd0GYPcANmdxTPed4Z7O27bV6eyYtVlbbprj4zH8YaH3fho4zjhoK47usWuYzExvgSAsV9r4XXIh6QAoXplAUg6Plmao60EAKOq6zg1wmQvT4os4A4DdDZqsOBVCAAAAAElFTkSuQmCC" alt="ADP logo"></span>
                 <h4 class="role">Director of Web & Digital Demand Marketing, International — ADP</h4>
               </div>
               <div class="meta">Nov 2019 – Jan 2023</div>
               <p class="scope"><strong>Leadership & scope:</strong> Owned international web strategy across 12 markets; built in‑house SEO, media & analytics capabilities; coordinated with local marketing & global product.</p>
               <ul>
                 <li>Owned website strategy across EMEA, APAC & LATAM; SEO, content, UX, traffic acquisition and CRO.</li>
+                <li>Owned <strong>paid media</strong> & <strong>campaign strategy</strong> across markets; drove efficiency and pipeline impact.</li>
                 <li>Migrated and relaunched multi‑country websites; improved Core Web Vitals and localisation.</li>
                 <li><strong>+100% organic traffic</strong> and consistent <strong>#0/#1 rankings</strong> for competitive terms; <strong>double‑digit pipeline growth</strong>.</li>
               </ul>
@@ -228,21 +612,20 @@
 
             <article class="xp-card">
               <div class="head">
-                <div class="logo">LN</div>
+                <span class="logo"><img src="data:image/png;base64,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" alt="LexisNexis logo"></span>
                 <h4 class="role">Senior Digital Marketing / Web Product Manager — LexisNexis UK</h4>
               </div>
               <div class="meta">Nov 2016 – Nov 2019</div>
               <p class="scope"><strong>Leadership & scope:</strong> Product owner for multiple sites; led SEO/CRO, marketing automation and UX programs with engineering, content and sales stakeholders.</p>
               <ul>
                 <li>Owned and optimised lexisnexis.co.uk, store.lexisnexis.com, and tolley.co.uk.</li>
-                <li>Launched TolleyGuidance & LexisPSL; award‑winning SEO/CRO → <strong>+575% traffic growth</strong>.</li>
-                <li>Led automation, SEO/PPC & UX strategies; material conversion & revenue uplift.</li>
+                <li>Launched TolleyGuidance & LexisPSL → <strong>+575% traffic growth</strong> through SEO/CRO & platform launches.</li>
               </ul>
             </article>
 
             <article class="xp-card">
               <div class="head">
-                <div class="logo">SG</div>
+                <span class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAY1BMVEUAFTIADi4AACAAACQABSoAACJRWGWprLGUmaBfZXIAETAAACZ+g43////u8PEAABAAABISHzg0PU8AACns7e7l5uh3fIdaYG18gYsAABwYJTw6QlNMUmJqb3vd3uDFx8sAABcmEilbAAAAmUlEQVR4Ad1QxQGEMBCc4MQT3Om/ylvOLQ0wj3UdnAosioGExB1xmhyCXXNZXsRJSQLgjMJFXiYkMiqBkEqbuFDagjlfwWpVpEYrKd6SteVolGe2/ptMMqXaKpBE3PUDQkkkFcJJzsJJNk5VKMldHb6WzcFrtYXI2uGThGpZt6HqSQAJBYZt7QWJpcKR3SksSNwx7OIQFc6EC5kkEAAIz098AAAAAElFTkSuQmCC" alt="Sungard AS logo"></span>
                 <h4 class="role">Head of Digital, Europe — Sungard AS</h4>
               </div>
               <div class="meta">Apr 2016 – Nov 2016</div>
@@ -256,31 +639,6 @@
           </div>
         </section>
 
-        <!-- AI Leadership & Wins -->
-        <section class="section">
-          <div class="ai-panel">
-            <h3 class="h3">AI Leadership & Wins</h3>
-            <ul>
-              <li><strong>AI‑Powered CRO Experimentation:</strong> LLM‑assisted variant generation (copy, IA, UX) + automated analysis → <strong>+100% CVR YoY</strong>.</li>
-              <li><strong>SEO / LLM Optimisation:</strong> generative keyword expansion & content scoring → <strong>+50% organic MQLs YoY</strong>.</li>
-              <li><strong>Automation Bots:</strong> community management bot (onboarding & engagement), reporting/insight assistant (GA4 → narrative output), test prioritisation assistant (LLM scoring of CRO backlog).</li>
-              <li><strong>Custom AI Visibility/Monitoring:</strong> tools to track web performance, content signals, and user journeys in real time.</li>
-              <li><strong>AI Board Member (Personio):</strong> governance & roadmap advocacy across marketing.</li>
-            </ul>
-            <div class="ai-tools">
-              <span class="ai-pill">ChatGPT</span>
-              <span class="ai-pill">Gemini</span>
-              <span class="ai-pill">Langdock</span>
-              <span class="ai-pill">Cursor</span>
-              <span class="ai-pill">Sora</span>
-              <span class="ai-pill">Veo</span>
-              <span class="ai-pill">GA4 Predictive</span>
-              <span class="ai-pill">Custom Bots</span>
-              <span class="ai-pill">AI Monitoring/Visibility</span>
-            </div>
-          </div>
-        </section>
-
         <section class="section">
           <h3 class="h3">Education</h3>
           <p class="summary">Bournemouth University — BSc (Hons) Business Information Technology</p>
@@ -289,6 +647,155 @@
       </main>
     </div>
   </div>
+
+
+<script>
+  (function(){
+    const btn = document.getElementById('togglePrintTheme');
+    if(btn){
+      btn.addEventListener('click', function(){
+        const root = document.documentElement;
+        const isLight = root.getAttribute('data-print-theme') === 'light';
+        root.setAttribute('data-print-theme', isLight ? 'dark' : 'light');
+        this.setAttribute('aria-pressed', String(!isLight));
+      });
+      // set default
+      document.documentElement.setAttribute('data-print-theme','dark');
+    }
+  })();
+</script>
+
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion) return;
+
+  const els = document.querySelectorAll('.xp-card, .kpi');
+  els.forEach(el => el.classList.add('reveal'));
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  els.forEach(el => io.observe(el));
+})();
+</script>
+
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduceMotion) return;
+  window.addEventListener('DOMContentLoaded', () => {
+    const items = Array.from(document.querySelectorAll('.side, .kpi, .xp-card'));
+    items.forEach((el, i) => {
+      setTimeout(()=> el.classList.add('trace-border'), i * 90);
+    });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function drawUnderline(){
+    const title = document.querySelector('.title');
+    const holder = document.querySelector('.title-penline');
+    if(!title || !holder) return;
+    // clear previous
+    holder.innerHTML = '';
+    const width = Math.max(120, Math.floor(title.offsetWidth * 0.55)); // 55% of title width feels balanced
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class','pen-svg');
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', 6);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1','1'); line.setAttribute('y1','3');
+    line.setAttribute('x2', String(width-1)); line.setAttribute('y2','3');
+    svg.appendChild(line);
+    holder.appendChild(svg);
+
+    // dash animation
+    const len = line.getTotalLength();
+    line.style.strokeDasharray = len;
+    line.style.strokeDashoffset = len;
+    if(!reduceMotion){
+      requestAnimationFrame(()=>{
+        line.classList.add('pen-draw');
+      });
+    }else{
+      line.style.strokeDashoffset = 0;
+    }
+  }
+
+  function attachPenBorder(el){
+    // remove any old svg
+    el.querySelectorAll('.pen-svg').forEach(s=>s.remove());
+    const rect = el.getBoundingClientRect();
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class','pen-svg');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    // inset a bit so stroke doesn't clip
+    path.setAttribute('x','1'); path.setAttribute('y','1');
+    path.setAttribute('width', String(el.clientWidth - 2));
+    path.setAttribute('height', String(el.clientHeight - 2));
+    // read border radius from computed style (fallback to 16)
+    const cs = getComputedStyle(el);
+    const rx = parseFloat(cs.borderTopLeftRadius) || 16;
+    path.setAttribute('rx', String(rx));
+    svg.appendChild(path);
+    el.appendChild(svg);
+
+    // dash animation
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+    if(!reduceMotion){
+      // trigger draw
+      requestAnimationFrame(()=>{
+        path.classList.add('pen-draw');
+      });
+    }else{
+      path.style.strokeDashoffset = 0;
+    }
+  }
+
+  function initBoxTraces(){
+    const boxes = document.querySelectorAll('.side, .kpi, .xp-card');
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            attachPenBorder(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold: 0.15});
+      boxes.forEach(b=> io.observe(b));
+    }else{
+      boxes.forEach(b=> attachPenBorder(b));
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    drawUnderline();
+    initBoxTraces();
+  });
+  window.addEventListener('resize', ()=>{
+    drawUnderline();
+    // optional: re-draw borders on resize for accuracy
+    document.querySelectorAll('.side, .kpi, .xp-card').forEach(el => attachPenBorder(el));
+  });
+})();
+</script>
 
 </body>
 </html>
