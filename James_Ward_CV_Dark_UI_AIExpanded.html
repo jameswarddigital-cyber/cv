@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Ward — Product-Style CV</title>
+<style>
+  :root{
+    --ink:#eef3f7; --muted:#b9c3cd;
+    --bg-1:#0a0c0f; --bg-2:#0d1714; --bg-3:#0f0b16;
+    --stroke:#232a33; --panel:rgba(15,18,22,.72);
+    --teal:#7be3ea; --teal-600:#47cfd9;
+    --lav:#c9a3ef; --lav-600:#a97bdf;
+    --emerald:#7ee7a6; --emerald-600:#36cc77;
+    --purple:#7c3aed; --purple-soft: rgba(124,58,237,.35);
+    --shadow:0 22px 68px rgba(0,0,0,.42);
+  }
+  @media (prefers-color-scheme: dark){ :root{ color-scheme:dark; } }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    color:var(--ink);
+    background:
+      radial-gradient(60% 60% at 80% 6%, rgba(121,231,240,.12), transparent 60%),
+      radial-gradient(50% 55% at 12% 88%, rgba(72,207,217,.10), transparent 60%),
+      radial-gradient(60% 60% at 15% 10%, rgba(169,123,223,.16), transparent 60%),
+      radial-gradient(45% 60% at 92% 92%, rgba(54,204,119,.12), transparent 60%),
+      linear-gradient(135deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
+    background-attachment: fixed, fixed, fixed, fixed, fixed; /* single background spans all pages */
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  a{ color:var(--teal); text-decoration:none; } a:hover{ text-decoration:underline; }
+  .page{ max-width:1080px; margin:44px auto; padding:0 32px 60px; }
+  .hero{ display:flex; align-items:baseline; justify-content:space-between; gap:18px; padding:8px 0 14px; border-bottom:1px solid var(--stroke); }
+  .title{ font-weight:900; font-size:34px; letter-spacing:.2px; margin:0; }
+  .subtitle{ margin:0; color:var(--muted); font-weight:600; font-size:14px; }
+
+  .grid{ display:grid; grid-template-columns:320px 1fr; gap:32px; margin-top:22px; }
+
+  /* Sidebar */
+  .side{ background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--stroke); border-radius:18px; padding:18px 18px 16px; box-shadow:var(--shadow); }
+  .block + .block{ margin-top:18px; }
+  .label{ font-size:12px; letter-spacing:.18px; text-transform:uppercase; color:#fff; opacity:.95; font-weight:850; margin-bottom:10px; }
+  .kv{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13.5px; }
+  .kv + .kv{ margin-top:6px; } .kv svg{ width:14px; height:14px; opacity:.95; }
+  .skills{ color:var(--muted); font-size:13.5px; line-height:1.65; }
+  .stack{ color:var(--muted); font-size:13.5px; line-height:1.65; }
+  .badges{ display:flex; flex-wrap:wrap; gap:8px; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:850; font-size:12px; color:#0b0d0f; box-shadow:0 8px 28px rgba(0,0,0,.25); }
+  .teal{ background:linear-gradient(180deg,#98f2f7,#49d2db); }
+  .lav{ background:linear-gradient(180deg,#dbc3f6,#a97bdf); }
+  .em{ background:linear-gradient(180deg,#9af0bf,#36cc77); color:#062012; }
+
+  /* Main content */
+  .section{ padding:18px 0; }
+  .h3{ margin:0 0 14px; font-size:20px; font-weight:850; letter-spacing:.2px; background:linear-gradient(90deg,var(--lav),var(--teal)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 30px rgba(113,229,236,.22); }
+  .summary{ color:var(--ink); opacity:.92; line-height:1.7; font-weight:520; font-size:15px; }
+
+  /* Stat tiles */
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:10px; }
+  .stat{ padding:16px; border-radius:16px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.68), rgba(15,18,22,.42)); box-shadow:var(--shadow); }
+  .stat.glow-purple{ box-shadow:0 0 0 1px var(--purple-soft), 0 12px 48px rgba(124,58,237,.22), var(--shadow); }
+  .stat h4{ margin:0; font-size:24px; font-weight:900; }
+  .stat p{ margin:4px 0 0; color:var(--muted); font-weight:600; font-size:13px; }
+
+  /* Experience cards */
+  .xp{ display:flex; flex-direction:column; gap:18px; }
+  .xp-card{ padding:18px 20px 10px; border-radius:18px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:var(--shadow); }
+  .xp-card.glow-purple{ box-shadow:0 0 0 1px var(--purple-soft), 0 12px 48px rgba(124,58,237,.22), var(--shadow); }
+  .head{ display:flex; align-items:center; gap:12px; }
+  .logo{ width:30px; height:30px; border-radius:9px; background:#1e232b; border:1px solid #2b323c; display:grid; place-items:center; font-size:11px; font-weight:900; color:#cfd6dd; letter-spacing:.3px; }
+  .role{ margin:0; font-weight:880; font-size:16px; }
+  .meta{ margin:3px 0 8px; color:var(--muted); font-weight:640; font-size:13px; }
+  .scope{ margin:0 0 10px; color:#cfe9f0; font-weight:640; font-size:13px; }
+  ul{ margin:10px 0 12px 20px; padding:0; }
+  li{ margin:0 0 7px; line-height:1.55; font-size:14px; }
+  .quote{ margin:10px 0 6px; font-style:italic; font-weight:620; font-size:13.5px; color:#d8f7f9; padding:12px 14px; border-left:2px solid var(--teal-600); background:linear-gradient(180deg, rgba(10,18,22,.6), rgba(10,18,22,.3)); border-radius:12px; }
+
+  /* AI section */
+  .ai-panel{ padding:18px 20px 16px; border-radius:18px; border:1px solid var(--stroke); background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:0 0 0 1px var(--purple-soft), 0 16px 56px rgba(124,58,237,.22), var(--shadow); }
+  .ai-tools{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .ai-pill{ border:1px solid rgba(124,58,237,.45); padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px; color:#e9defc; background:linear-gradient(180deg, rgba(124,58,237,.18), rgba(124,58,237,.12)); box-shadow:0 10px 40px rgba(124,58,237,.18); }
+
+  @page{ size:A4; margin:14mm; } /* print friendly but not forcing 2 pages */
+  @media print{ body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; } a{ color:var(--teal) !important; text-decoration: underline; } }
+</style>
+</head>
+<body>
+
+  <div class="page">
+    <header class="hero">
+      <h1 class="title">James Ward</h1>
+      <p class="subtitle">Head of Website @ Personio · B2B SaaS · Marketing & Product Leader</p>
+    </header>
+
+    <div class="grid">
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="block">
+          <div class="label">Contact</div>
+          <div class="kv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="5" width="18" height="14" rx="2" ry="2" stroke-width="1.3"/><path d="M3 7l9 6 9-6" stroke-width="1.3"/></svg>
+            <a href="mailto:jamesward100@hotmail.co.uk">jamesward100@hotmail.co.uk</a>
+          </div>
+          <div class="kv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="1.3"/><path d="M2 12h20M12 2a16 16 0 010 20" stroke-width="1.3"/></svg>
+            <a href="https://www.linkedin.com/in/jameswarddigital">linkedin.com/in/jameswarddigital</a>
+          </div>
+          <div class="kv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l7 7-7 13L5 9l7-7z" stroke-width="1.3"/></svg>
+            <span>United Kingdom</span>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="label">Key Skills</div>
+          <div class="skills">
+            Web Product Leadership • SEO & CRO • Growth Marketing • Demand Generation • AI & LLM Optimisation • Team Leadership
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="label">AI Tools Used</div>
+          <div class="stack">
+            <div class="badges">
+              <span class="pill lav">ChatGPT</span>
+              <span class="pill lav">Gemini</span>
+              <span class="pill lav">Langdock</span>
+              <span class="pill lav">Cursor</span>
+              <span class="pill lav">Sora</span>
+              <span class="pill lav">Veo</span>
+              <span class="pill lav">GA4 Predictive</span>
+              <span class="pill lav">Custom Bots</span>
+              <span class="pill lav">AI Monitoring/Visibility</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="label">KPI Highlights</div>
+          <div class="badges">
+            <span class="pill teal">+100% Conversion</span>
+            <span class="pill lav">+50% Organic MQL</span>
+            <span class="pill em">Double‑digit Pipeline</span>
+            <span class="pill em">575% Traffic Growth</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main>
+        <section class="section">
+          <h3 class="h3">Professional Summary</h3>
+          <p class="summary">Strategic growth and web product leader with extensive experience building high‑performing teams, scaling demand generation, and delivering award‑winning digital products. Proven record in B2B SaaS, driving double‑digit revenue growth, website transformation, and AI‑driven marketing innovation.</p>
+        </section>
+
+        <section class="section">
+          <div class="stats">
+            <div class="stat glow-purple">
+              <h4>+100% CVR</h4>
+              <p>AI‑powered CRO experimentation uplift YoY at Personio.</p>
+            </div>
+            <div class="stat glow-purple">
+              <h4>+50% MQL</h4>
+              <p>Organic MQL growth via SEO ownership & LLM optimisation.</p>
+            </div>
+            <div class="stat">
+              <h4>Double‑Digit</h4>
+              <p>Regional pipeline growth (Slack & ADP).</p>
+            </div>
+            <div class="stat">
+              <h4>+575% Traffic</h4>
+              <p>LexisNexis growth through SEO/CRO & platform launches.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3 class="h3">Experience</h3>
+          <div class="xp">
+
+            <article class="xp-card glow-purple">
+              <div class="head">
+                <div class="logo">PS</div>
+                <h4 class="role">Head of Website (Contract → Permanent) — Personio</h4>
+              </div>
+              <div class="meta">Nov 2024 – Present · London, UK</div>
+              <p class="scope"><strong>Leadership & scope:</strong> Owns web product across Design/UX, FE/BE, SEO, content & CRO. Drives strategy, delivery and experimentation. Partner to Sales, Product and RevOps. Member of the AI Board.</p>
+              <ul>
+                <li>Launched the largest website relaunch in Personio’s history; re‑architected IA, design system, and performance.</li>
+                <li><strong>AI‑powered CRO:</strong> experimentation framework for copy, IA, and UX variants with automated analysis → <strong>+100% sitewide CVR YoY</strong>.</li>
+                <li><strong>SEO/LLM optimisation:</strong> generative content workflow and technical SEO improvements → <strong>+50% organic MQL YoY</strong>.</li>
+                <li>Restructured and elevated the web team; instituted product rituals and analytics foundations.</li>
+                <li>Owner of SEO & AI optimisation; improved share of voice and reduced drop‑off across key journeys.</li>
+              </ul>
+              <div class="quote">“This is the first time in the history of Personio that I'm truly proud of our new website.” — Hanno Renner, CEO</div>
+            </article>
+
+            <article class="xp-card">
+              <div class="head">
+                <div class="logo">SL</div>
+                <h4 class="role">Director of Demand Generation, EMEA — Slack</h4>
+              </div>
+              <div class="meta">Jan 2023 – Mar 2024</div>
+              <p class="scope"><strong>Leadership & scope:</strong> Led regional demand team (integrated campaigns, performance media, digital events & enablement). Partnered with Sales on ICP, messaging and funnel orchestration.</p>
+              <ul>
+                <li>Built the first pan‑EMEA integrated campaign model for major launches (Slack AI, Slack Sales Elevate).</li>
+                <li>Improved SEM/PLG efficiency and <strong>reduced CPAO</strong> while increasing pipeline contribution.</li>
+                <li>Operationalised audience, message, and channel playbooks across the region.</li>
+              </ul>
+            </article>
+
+            <article class="xp-card">
+              <div class="head">
+                <div class="logo">ADP</div>
+                <h4 class="role">Director of Web & Digital Demand Marketing, International — ADP</h4>
+              </div>
+              <div class="meta">Nov 2019 – Jan 2023</div>
+              <p class="scope"><strong>Leadership & scope:</strong> Owned international web strategy across 12 markets; built in‑house SEO, media & analytics capabilities; coordinated with local marketing & global product.</p>
+              <ul>
+                <li>Owned website strategy across EMEA, APAC & LATAM; SEO, content, UX, traffic acquisition and CRO.</li>
+                <li>Migrated and relaunched multi‑country websites; improved Core Web Vitals and localisation.</li>
+                <li><strong>+100% organic traffic</strong> and consistent <strong>#0/#1 rankings</strong> for competitive terms; <strong>double‑digit pipeline growth</strong>.</li>
+              </ul>
+            </article>
+
+            <article class="xp-card">
+              <div class="head">
+                <div class="logo">LN</div>
+                <h4 class="role">Senior Digital Marketing / Web Product Manager — LexisNexis UK</h4>
+              </div>
+              <div class="meta">Nov 2016 – Nov 2019</div>
+              <p class="scope"><strong>Leadership & scope:</strong> Product owner for multiple sites; led SEO/CRO, marketing automation and UX programs with engineering, content and sales stakeholders.</p>
+              <ul>
+                <li>Owned and optimised lexisnexis.co.uk, store.lexisnexis.com, and tolley.co.uk.</li>
+                <li>Launched TolleyGuidance & LexisPSL; award‑winning SEO/CRO → <strong>+575% traffic growth</strong>.</li>
+                <li>Led automation, SEO/PPC & UX strategies; material conversion & revenue uplift.</li>
+              </ul>
+            </article>
+
+            <article class="xp-card">
+              <div class="head">
+                <div class="logo">SG</div>
+                <h4 class="role">Head of Digital, Europe — Sungard AS</h4>
+              </div>
+              <div class="meta">Apr 2016 – Nov 2016</div>
+              <p class="scope"><strong>Leadership & scope:</strong> Website product owner for platform migration & global relaunch; led UX/UI architecture and content.</p>
+              <ul>
+                <li>Relaunched global websites with new UX/UI and platform migration.</li>
+                <li>Implemented SEO & Digital PR strategy; secured tier‑one coverage.</li>
+              </ul>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- AI Leadership & Wins -->
+        <section class="section">
+          <div class="ai-panel">
+            <h3 class="h3">AI Leadership & Wins</h3>
+            <ul>
+              <li><strong>AI‑Powered CRO Experimentation:</strong> LLM‑assisted variant generation (copy, IA, UX) + automated analysis → <strong>+100% CVR YoY</strong>.</li>
+              <li><strong>SEO / LLM Optimisation:</strong> generative keyword expansion & content scoring → <strong>+50% organic MQLs YoY</strong>.</li>
+              <li><strong>Automation Bots:</strong> community management bot (onboarding & engagement), reporting/insight assistant (GA4 → narrative output), test prioritisation assistant (LLM scoring of CRO backlog).</li>
+              <li><strong>Custom AI Visibility/Monitoring:</strong> tools to track web performance, content signals, and user journeys in real time.</li>
+              <li><strong>AI Board Member (Personio):</strong> governance & roadmap advocacy across marketing.</li>
+            </ul>
+            <div class="ai-tools">
+              <span class="ai-pill">ChatGPT</span>
+              <span class="ai-pill">Gemini</span>
+              <span class="ai-pill">Langdock</span>
+              <span class="ai-pill">Cursor</span>
+              <span class="ai-pill">Sora</span>
+              <span class="ai-pill">Veo</span>
+              <span class="ai-pill">GA4 Predictive</span>
+              <span class="ai-pill">Custom Bots</span>
+              <span class="ai-pill">AI Monitoring/Visibility</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3 class="h3">Education</h3>
+          <p class="summary">Bournemouth University — BSc (Hons) Business Information Technology</p>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+</body>
+</html>
