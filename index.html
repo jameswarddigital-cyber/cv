@@ -1,541 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>James Ward — Product-Style CV</title>
-
-<style>
-  :root{
-    --ink:#eef3f7; --muted:#b9c3cd;
-    --bg-1:#0a0c0f; --bg-2:#0d1714; --bg-3:#0f0b16;
-    --stroke:#232a33; --panel:rgba(15,18,22,.72);
-    --teal:#7be3ea; --lav:#c9a3ef; --emerald:#7ee7a6;
-    --purple:#a78bfa; --purple-strong:#7c3aed;
-    --shadow:0 22px 68px rgba(0,0,0,.42);
-  }
-
-  *{ box-sizing:border-box; }
-  body{
-    margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    color:var(--ink);
-    background:
-      radial-gradient(60% 60% at 80% 6%, rgba(121,231,240,.12), transparent 60%),
-      radial-gradient(50% 55% at 12% 88%, rgba(72,207,217,.10), transparent 60%),
-      radial-gradient(60% 60% at 15% 10%, rgba(169,123,223,.16), transparent 60%),
-      radial-gradient(45% 60% at 92% 92%, rgba(54,204,119,.12), transparent 60%),
-      linear-gradient(135deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
-    background-attachment: fixed, fixed, fixed, fixed, fixed;
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-
-    /* gentle drift for depth */
-    background-size: 120% 120%, 120% 120%, 120% 120%, 120% 120%, 100% 100%;
-    animation: bgFloat 60s ease-in-out infinite;
-  }
-  @keyframes bgFloat{
-    0%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
-    50%{ background-position: 78% 8%, 10% 86%, 17% 12%, 90% 94%, 0 0; }
-    100%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
-  }
-  a{ color:var(--teal); text-decoration:none; }
-  a:hover{ text-decoration:underline; }
-
-  /* Layout (stable gutters) */
-  .page{ max-width:1080px; margin:44px auto; padding:0 32px 60px; }
-  .hero{ display:flex; align-items:baseline; justify-content:space-between; gap:18px; padding:8px 0 14px; position:relative; border-bottom:none; }
-  .title{ font-weight:900; font-size:clamp(26px, 4.2vw, 36px); margin:0; }
-  .subtitle{ margin:0; color:var(--muted); font-weight:600; font-size:clamp(12px, 1.8vw, 14px); }
-  .grid{ display:grid; grid-template-columns:340px 1fr; gap:36px; margin-top:24px; }
-
-  /* Disable any legacy header line (::after) — single source of truth lives in .header-penline */
-  .hero::after{ content:none !important; }
-
-  /* Sidebar */
-  .side{ background:var(--panel); backdrop-filter:blur(12px); border:1px solid var(--stroke); border-radius:18px; padding:20px; box-shadow:var(--shadow); }
-  .block + .block{ margin-top:26px; padding-top:22px; border-top:1px solid rgba(255,255,255,.08); }
-  .label{ font-size:13px; letter-spacing:.18px; text-transform:uppercase; color:#fff; opacity:.95; font-weight:850; margin-bottom:12px; }
-  .kv{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13.5px; }
-  .kv svg{ width:16px; height:16px; display:block; flex:0 0 16px; }
-  .kv + .kv{ margin-top:8px; }
-  .skills,.stack{ color:var(--muted); font-size:14px; line-height:1.7; }
-
-  /* Sidebar outlined pills */
-  .pills{ display:flex; flex-wrap:wrap; gap:8px; }
-  .pill{
-    display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:780; font-size:12px; color:#e9defc;
-    border:1px solid rgba(124,58,237,.55); background:linear-gradient(180deg, rgba(124,58,237,.10), rgba(124,58,237,.06));
-  }
-
-  .ai-wins{ list-style:none; padding:0; margin:0; }
-  .ai-wins li{ margin:0 0 10px; line-height:1.7; color:#e9defc; font-size:15px; }
-  .ai-wins strong{ color:#fff; }
-
-  /* Main */
-  .section{ padding:22px 0; }
-  .h3{
-    margin:0 0 16px; font-size:22px; font-weight:850; letter-spacing:.2px;
-    background:linear-gradient(90deg,var(--lav),var(--teal)); -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-shadow:0 0 30px rgba(113,229,236,.22);
-    background-size: 200% 100%; animation: shimmer 16s linear infinite;
-  }
-  @keyframes shimmer{
-    0%{ background-position: 0% 50%; }
-    100%{ background-position: 200% 50%; }
-  }
-  .summary{ color:var(--ink); opacity:.92; line-height:1.7; font-weight:520; font-size:15.5px; }
-
-  /* KPI tiles (refined) */
-  .kpis{ display:grid; grid-template-columns:repeat(2, minmax(240px, 1fr)); gap:18px; }
-  .kpi{
-    position:relative; padding:18px 18px 16px; border-radius:20px;
-    background:linear-gradient(180deg, rgba(16,18,24,.55), rgba(16,18,24,.35)); overflow:hidden;
-    transition: transform .25s ease, box-shadow .25s ease;
-  }
-  .kpi:hover{ transform: translateY(-2px); box-shadow: 0 10px 28px rgba(124,58,237,.16); }
-  .kpi:before{
-    content:""; position:absolute; inset:0; padding:1px; border-radius:22px;
-    background:linear-gradient(135deg, rgba(167,139,250,.5), rgba(101,225,232,.45));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: destination-out; mask-composite: exclude;
-    box-shadow: 0 12px 48px rgba(124,58,237,.16);
-  }
-  .kpi .top{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-  .kpi .ico{
-    width:30px; height:30px; border-radius:10px; display:grid; place-items:center;
-    background:radial-gradient(circle at 30% 30%, rgba(167,139,250,.35), rgba(167,139,250,.05));
-    border:1px solid rgba(167,139,250,.35);
-  }
-  .kpi .stat{ font-size:28px; font-weight:900; line-height:1; }
-  .kpi .label{ font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#cfd6dd; font-weight:800; margin:4px 0 0; }
-  .kpi .desc{ margin:8px 0 0; color:#b9c3cd; font-size:13.5px; line-height:1.5; }
-
-  /* Experience */
-  .xp{ display:flex; flex-direction:column; gap:22px; }
-  .xp-card{
-    padding:20px 22px 12px; border-radius:18px; border:1px solid #262c35;
-    background:linear-gradient(180deg, rgba(15,18,22,.72), rgba(15,18,22,.46)); box-shadow:0 22px 68px rgba(0,0,0,.36);
-    position: relative; overflow: hidden;
-  }
-  .xp-card.glow{
-    box-shadow:0 0 0 1px rgba(124,58,237,.35), 0 12px 48px rgba(124,58,237,.22), 0 22px 68px rgba(0,0,0,.36);
-  }
-  .head{ display:flex; align-items:center; gap:12px; }
-  .logo{ width:20px; height:20px; display:inline-block; vertical-align:middle; border-radius:4px; overflow:hidden; box-shadow:none; outline:none; }
-  .logo img{ width:100%; height:100%; display:block; }
-  .role{ margin:0; font-weight:880; font-size:16px; }
-  .meta{ margin:3px 0 8px; color:#c3ccd6; font-weight:640; font-size:13px; }
-  .scope{ margin:0 0 10px; color:#cfe9f0; font-weight:640; font-size:15px; }
-  ul{ margin:10px 0 12px 20px; padding:0; }
-  li{ margin:0 0 8px; line-height:1.7; font-size:15px; }
-  .quote{
-    margin:10px 0 6px; font-style:italic; font-weight:620; font-size:13.5px; color:#d8f7f9;
-    padding:12px 14px; border-left:2px solid rgba(124,58,237,.5);
-    background:linear-gradient(180deg, rgba(10,18,22,.6), rgba(10,18,22,.3)); border-radius:12px;
-  }
-
-  /* -------- Newer Header-Line Animation (bounded sweep + reflective glow) -------- */
-  .header-penline{
-    position: relative; height: 4px; margin: 8px 0 10px; overflow: visible; z-index: 0;
-  }
-  .header-penline .penline-base{
-    position:absolute; left:0; right:0; top:50%; transform: translateY(-50%);
-    height:2px; border-radius:9999px;
-    background: linear-gradient(90deg, #c9a3ef, #7be3ea);
-    opacity:.95;
-  }
-  .header-penline .penline-sweep{
-    position:absolute; top:50%; left:0; width:28%; transform: translateY(-50%) translateX(0);
-    height:2px; border-radius:9999px;
-    background: linear-gradient(90deg,
-      rgba(201,163,239,0) 0%,
-      rgba(201,163,239,.9) 18%,
-      rgba(123,227,234,.9) 50%,
-      rgba(167,139,250,.85) 82%,
-      rgba(201,163,239,0) 100%
-    );
-    box-shadow: 0 0 10px rgba(123,227,234,.35), 0 0 16px rgba(169,123,223,.22);
-    opacity:.85;
-    will-change: transform, opacity;
-    animation: sweep-pan 6s ease-in-out infinite alternate;
-  }
-  .header-penline .penline-reflect{
-    position:absolute; left:0; width:28%; top:2px; transform: translateX(0);
-    height:120px; border-radius:24px;
-    background: linear-gradient(180deg,
-      rgba(123,227,234,0.00) 0%,
-      rgba(123,227,234,0.22) 14%,
-      rgba(169,123,223,0.18) 34%,
-      rgba(201,163,239,0.12) 66%,
-      rgba(201,163,239,0.00) 100%
-    );
-    filter: blur(14px);
-    opacity:.28; pointer-events:none; z-index:-1;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 6px, black 24px, rgba(0,0,0,.6) 60%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, transparent 6px, black 24px, rgba(0,0,0,.6) 60%, transparent 100%);
-    animation: sweep-pan-reflect 6s ease-in-out infinite alternate;
-  }
-  @keyframes sweep-pan {
-    0% { transform: translateY(-50%) translateX(0); }
-    100% { transform: translateY(-50%) translateX(257%); } /* 28% width → 257% reaches right edge */
-  }
-  @keyframes sweep-pan-reflect {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(257%); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .header-penline .penline-sweep, .header-penline .penline-reflect{ display:none !important; }
-  }
-
-  /* Subtle reveal on scroll for cards (kept gentle) */
-  .reveal{ opacity:0; transform: translateY(6px); transition: opacity .5s ease, transform .5s ease; }
-  .reveal.is-visible{ opacity:1; transform: translateY(0); }
-
-  /* Link underline micro-interaction */
-  a{
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 0% 1px;
-    transition: background-size .25s ease;
-  }
-  a:hover{ background-size: 100% 1px; text-decoration: none; }
-
-  /* Responsive */
-  @media (max-width: 960px){
-    .page{ padding: 0 20px 48px; }
-    .grid{ grid-template-columns: 1fr; gap:22px; }
-    .side{ position:relative; top:0; border-radius:16px; }
-    .kpis{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .xp{ gap:18px; }
-  }
-  @media (max-width: 680px){
-    body{ background-attachment: scroll, scroll, scroll, scroll, scroll; }
-    .page{ padding: 0 16px 40px; }
-    .hero{ flex-direction: column; align-items:flex-start; gap:6px; }
-    .grid{ grid-template-columns: 1fr; gap:18px; }
-    .kpis{ grid-template-columns: 1fr; }
-    .xp-card{ padding:16px 16px 10px; }
-    .role{ font-size:15.5px; }
-    .meta, .scope, .skills, .stack{ font-size:14px; }
-    .pill{ padding:6px 10px; font-size:12px; }
-    .kv{ gap:12px; } .kv a{ word-break: break-word; }
-    .logo{ width:18px; height:18px; }
-    .label{ font-size:12.5px; }
-  }
-
-  /* Print (kept simple but crisp) */
-  @page{ size:A4; margin:14mm; }
-  @media print{
-    @page { size: A4; margin: 12mm; }
-    :root{ color-scheme: light; }
-    body{ -webkit-print-color-adjust: exact; print-color-adjust: exact; background:#0a0c0f; }
-    .side, .xp-card, .kpi{ box-shadow: none !important; }
-    .h3{ text-shadow: none; }
-    .xp-card, .kpi, .section{ break-inside: avoid; page-break-inside: avoid; }
-    a{ color:#7be3ea !important; text-decoration: underline !important; }
-  }
-
-  /* Accessibility motion guard */
-  @media (prefers-reduced-motion: reduce){
-    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>James Ward — CV</title>
+  <style>
+    :root {
+      --ink:#eef3f7; --muted:#b9c3cd;
+      --bg-1:#0a0c0f; --bg-2:#0d1714; --bg-3:#0f0b16;
+      --panel:rgba(15,18,22,.72);
+      --stroke:#232a33;
+      --teal:#7be3ea; --lav:#c9a3ef; --emerald:#7ee7a6; --purple:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      background:radial-gradient(ellipse at top,#0d1117,#0b0f14 60%,#0a0d12);
+      line-height:1.6;
+    }
+    /* ✅ Fixed gutters */
+    .page{
+      max-width:1080px;
+      margin:44px auto;
+      padding:0 32px 60px;
+      overflow-x:hidden;
+    }
+    header h1{font-size:2.4rem;margin:0;font-weight:700}
+    header p{margin:.5rem 0 0;color:var(--muted)}
+    .header-penline{
+      position:relative;height:4px;margin:12px 0 28px;overflow:visible
+    }
+    .header-penline .penline-base{
+      position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+      height:2px;border-radius:9999px;
+      background:linear-gradient(90deg,var(--lav),var(--teal));
+      opacity:.95;
+    }
+    .header-penline .penline-sweep{
+      position:absolute;top:50%;left:0;width:28%;transform:translateY(-50%) translateX(0);
+      height:2px;border-radius:9999px;
+      background:linear-gradient(90deg,rgba(201,163,239,0) 0%,rgba(201,163,239,.9) 18%,rgba(123,227,234,.9) 50%,rgba(167,139,250,.85) 82%,rgba(201,163,239,0) 100%);
+      box-shadow:0 0 10px rgba(123,227,234,.35),0 0 16px rgba(169,123,223,.22);
+      opacity:.85;animation:sweep-pan 6s ease-in-out infinite alternate;
+    }
+    .header-penline .penline-reflect{
+      position:absolute;left:0;width:28%;top:2px;height:120px;
+      background:linear-gradient(180deg,rgba(123,227,234,0) 0%,rgba(123,227,234,.22) 14%,rgba(169,123,223,.18) 34%,rgba(201,163,239,.12) 66%,rgba(201,163,239,0) 100%);
+      filter:blur(14px);
+      opacity:.28;
+      pointer-events:none;
+      z-index:-1;
+      mask-image:linear-gradient(to bottom,transparent 0,transparent 6px,black 24px,rgba(0,0,0,.6) 60%,transparent 100%);
+      animation:sweep-pan-reflect 6s ease-in-out infinite alternate;
+    }
+    @keyframes sweep-pan{
+      0%{transform:translateY(-50%) translateX(0)}
+      100%{transform:translateY(-50%) translateX(257%)}
+    }
+    @keyframes sweep-pan-reflect{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(257%)}
+    }
+    .grid{display:grid;grid-template-columns:320px 1fr;gap:32px}
+    aside h2,section h2{font-size:1.2rem;color:var(--lav);margin:24px 0 12px}
+    .card{
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:18px 20px;
+      margin-bottom:20px;
+      position:relative;
+    }
+    .card .logo{
+      display:inline-block;
+      width:20px;height:20px;
+      margin-right:8px;
+      vertical-align:middle;
+    }
+    .card::before{
+      content:"";
+      position:absolute;inset:0;
+      border-radius:14px;
+      border:1px solid rgba(200,200,255,.15);
+      pointer-events:none;
+    }
+    .trace-border{
+      position:absolute;inset:0;
+      border-radius:14px;
+      border:2px solid transparent;
+      pointer-events:none;
+      background:linear-gradient(90deg,var(--lav),var(--teal),var(--purple)) border-box;
+      -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor;mask-composite:exclude;
+      opacity:0;
+    }
+    .card.trace-animate.inview .trace-border{animation:borderTrace 1.2s linear forwards}
+    @keyframes borderTrace{
+      0%{opacity:1;clip-path:inset(100% 0 0 0)}
+      25%{clip-path:inset(0 0 0 100%)}
+      50%{clip-path:inset(0 0 100% 0)}
+      75%{clip-path:inset(0 100% 0 0)}
+      100%{opacity:0;clip-path:inset(0 0 0 0)}
+    }
+    .sidebar-section{margin-bottom:28px}
+    .sidebar-section ul{list-style:none;margin:0;padding:0}
+    .sidebar-section li{margin-bottom:6px;color:var(--muted)}
+  </style>
 </head>
-
 <body>
   <div class="page">
-    <header class="hero">
-      <div>
-        <h1 class="title">James Ward</h1>
-        <p class="subtitle">Head of Website @ Personio · B2B SaaS · Marketing & Product Leader</p>
+    <header>
+      <h1>James Ward</h1>
+      <div class="header-penline" aria-hidden="true">
+        <div class="penline-base"></div>
+        <div class="penline-sweep"></div>
+        <div class="penline-reflect"></div>
       </div>
+      <p>Head of Website · Growth & Product Marketing Leader · AI Strategist</p>
     </header>
-
-    <!-- Single underline block (newer animation only) -->
-    <div class="header-penline" aria-hidden="true">
-      <div class="penline-base"></div>
-      <div class="penline-sweep"></div>
-      <div class="penline-reflect"></div>
-    </div>
-
-    <div class="grid">
-      <!-- Sidebar -->
-      <aside class="side">
-        <div class="block">
-          <div class="label">Contact</div>
-          <div class="kv">
-            <!-- mail -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>
-            <a href="mailto:jamesward100@hotmail.co.uk">jamesward100@hotmail.co.uk</a>
-          </div>
-          <div class="kv">
-            <!-- link -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10.5 13.5a4.5 4.5 0 0 1-6.364 0 4.5 4.5 0 0 1 0-6.364l2-2a4.5 4.5 0 0 1 6.364 0"/>
-              <path d="M13.5 10.5a4.5 4.5 0 0 1 6.364 0 4.5 4.5 0 0 1 0 6.364l-2 2a4.5 4.5 0 0 1-6.364 0"/>
-            </svg>
-            <a href="https://www.linkedin.com/in/jameswarddigital">linkedin.com/in/jameswarddigital</a>
-          </div>
-          <div class="kv">
-            <!-- location -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c9a3ef" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>
-            </svg>
-            United Kingdom
-          </div>
-        </div>
-
-        <div class="block">
-          <div class="label">Key Skills</div>
-          <div class="skills">
-            Web Product Leadership • SEO & CRO • Growth Marketing • Demand Generation • AI & LLM Optimisation • Team Leadership • Paid Media Strategy • Campaign Strategy • International GTM
-          </div>
-        </div>
-
-        <div class="block">
-          <div class="label">AI Leadership & Wins</div>
-          <ul class="ai-wins">
-            <li><strong>AI-Powered CRO:</strong> LLM variants + auto-analysis → <strong>+100% CVR YoY</strong>.</li>
-            <li><strong>SEO / LLM Optimisation:</strong> generative keyword expansion & scoring → <strong>+50% organic MQL</strong>.</li>
-            <li><strong>Automation Bots:</strong> community, reporting/insight assistant, test prioritisation assistant.</li>
-            <li><strong>Visibility/Monitoring:</strong> custom AI tools for real-time signals.</li>
-            <li><strong>AI Board Member:</strong> Personio.</li>
+    <main class="grid">
+      <aside>
+        <div class="sidebar-section">
+          <h2>Contact</h2>
+          <ul>
+            <li>📧 james@example.com</li>
+            <li>🌍 London, UK</li>
+            <li>🔗 linkedin.com/in/jamesward</li>
           </ul>
         </div>
-
-        <div class="block">
-          <div class="label">AI Tools Used</div>
-          <div class="pills">
-            <span class="pill">ChatGPT</span>
-            <span class="pill">Gemini</span>
-            <span class="pill">Langdock</span>
-            <span class="pill">Cursor</span>
-            <span class="pill">Sora</span>
-            <span class="pill">Veo</span>
-            <span class="pill">GA4 Predictive</span>
-            <span class="pill">Custom Bots</span>
-            <span class="pill">AI Monitoring</span>
-          </div>
+        <div class="sidebar-section">
+          <h2>AI Leadership</h2>
+          <ul>
+            <li>On AI Board at Personio</li>
+            <li>AI CRO experimentation model</li>
+            <li>AI bots for community, insights, test prioritisation</li>
+          </ul>
         </div>
-
-        <div class="block">
-          <div class="label">General Tools</div>
-          <div class="stack">
-            GA4 · Looker · Hotjar · HubSpot · Marketo · Salesforce (SFDC) · Contentful · Next.js · React · Node · Vercel · CloudFront · GitHub · Figma · Jira
-          </div>
+        <div class="sidebar-section">
+          <h2>AI Tools</h2>
+          <ul>
+            <li>Langdock, Gemini, Sora, Veo</li>
+            <li>ChatGPT, Cursor, custom bots</li>
+            <li>AI visibility & monitoring tools</li>
+          </ul>
         </div>
       </aside>
-
-      <!-- Main -->
-      <main>
-        <section class="section">
-          <h3 class="h3">Professional Summary</h3>
-          <p class="summary">
-            Strategic growth and web product leader with extensive experience building high-performing teams, scaling demand generation, and delivering award-winning digital products. Proven record in B2B SaaS, driving double-digit revenue growth, website transformation, and AI-driven marketing innovation.
-          </p>
-        </section>
-
-        <!-- KPI tiles (refined) -->
-        <section class="section" id="kpi-stats">
-          <div class="kpis">
-            <div class="kpi">
-              <div class="top">
-                <div class="ico">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
-                    <path d="M3 21h18M7 14l4-4 3 3 6-6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M17 7h6v6" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="stat">+100%</div>
-                  <div class="label">Conversion</div>
-                </div>
-              </div>
-              <div class="desc">AI-powered CRO experimentation uplift YoY at Personio.</div>
-            </div>
-
-            <div class="kpi">
-              <div class="top">
-                <div class="ico">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
-                    <circle cx="9" cy="7" r="3"/><path d="M2 21c0-3.866 3.134-7 7-7"/><circle cx="17" cy="9" r="3"/><path d="M14 21c0-3.866 3.134-7 7-7"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="stat">+50%</div>
-                  <div class="label">MQL</div>
-                </div>
-              </div>
-              <div class="desc">Organic MQL growth via SEO ownership & LLM optimisation.</div>
-            </div>
-
-            <div class="kpi">
-              <div class="top">
-                <div class="ico">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
-                    <rect x="3" y="4" width="6" height="16" rx="2"/><rect x="10" y="8" width="6" height="12" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="stat">+40%</div>
-                  <div class="label">Pipeline</div>
-                </div>
-              </div>
-              <div class="desc">Regional pipeline growth across Slack & ADP.</div>
-            </div>
-
-            <div class="kpi">
-              <div class="top">
-                <div class="ico">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#cbb8ff" stroke-width="1.6">
-                    <path d="M4 19V5m5 14V3m5 16V9m5 10V13" stroke-linecap="round"/>
-                  </svg>
-                </div>
-                <div>
-                  <div class="stat">+575%</div>
-                  <div class="label">Traffic</div>
-                </div>
-              </div>
-              <div class="desc">LexisNexis growth through SEO/CRO & platform launches.</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Experience -->
-        <section class="section">
-          <h3 class="h3">Experience</h3>
-          <div class="xp">
-            <article class="xp-card glow reveal">
-              <div class="head">
-                <!-- Decorative brand icon via inline SVG (keeps file self-contained) -->
-                <span class="logo" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" width="20" height="20">
-                    <defs>
-                      <linearGradient id="gP" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c9a3ef"/>
-                      </linearGradient>
-                    </defs>
-                    <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#gP)"/>
-                  </svg>
-                </span>
-                <h4 class="role">Head of Website (Contract → Permanent) — Personio</h4>
-              </div>
-              <div class="meta">Nov 2024 – Present · London, UK</div>
-              <p class="scope"><strong>Leadership & scope:</strong> Owns web product across Design/UX, FE/BE, SEO, content & CRO. Drives strategy, delivery and experimentation. Partner to Sales, Product and RevOps. Member of the AI Board.</p>
-              <ul>
-                <li>Launched the largest website relaunch in Personio’s history; re-architected IA, design system, and performance.</li>
-                <li><strong>AI-powered CRO:</strong> experimentation framework for copy/IA/UX variants → <strong>+100% sitewide CVR YoY</strong>.</li>
-                <li><strong>SEO/LLM optimisation:</strong> generative content workflow & technical SEO → <strong>+50% organic MQL YoY</strong>.</li>
-                <li>Restructured and elevated the web team; instituted product rituals and analytics foundations.</li>
-              </ul>
-              <div class="quote">“This is the first time in the history of Personio that I'm truly proud of our new website.” — Hanno Renner, CEO</div>
-            </article>
-
-            <article class="xp-card reveal">
-              <div class="head">
-                <span class="logo" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" width="20" height="20">
-                    <defs><linearGradient id="gS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#36c5f0"/><stop offset="1" stop-color="#e01e5a"/></linearGradient></defs>
-                    <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#gS)"/>
-                  </svg>
-                </span>
-                <h4 class="role">Director of Demand Generation, EMEA — Slack</h4>
-              </div>
-              <div class="meta">Jan 2023 – Mar 2024</div>
-              <p class="scope"><strong>Leadership & scope:</strong> Led regional demand team (integrated campaigns, performance media, digital events & enablement). Partnered with Sales on ICP, messaging and funnel orchestration.</p>
-              <ul>
-                <li>Built the first pan-EMEA integrated campaign model for major launches (Slack AI, Slack Sales Elevate).</li>
-                <li>Owned <strong>paid media</strong> & <strong>campaign strategy</strong> with sales orchestration; improved SEM/PLG efficiency and <strong>reduced CPAO</strong> while increasing pipeline contribution.</li>
-                <li>Operationalised audience, message, and channel playbooks across the region.</li>
-              </ul>
-            </article>
-
-            <article class="xp-card reveal">
-              <div class="head">
-                <span class="logo" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" width="20" height="20">
-                    <defs><linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f97316"/><stop offset="1" stop-color="#fde68a"/></linearGradient></defs>
-                    <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#gA)"/>
-                  </svg>
-                </span>
-                <h4 class="role">Director of Web & Digital Demand Marketing, International — ADP</h4>
-              </div>
-              <div class="meta">Nov 2019 – Jan 2023</div>
-              <p class="scope"><strong>Leadership & scope:</strong> Owned international web strategy across 12 markets; built in-house SEO, media & analytics capabilities; coordinated with local marketing & global product.</p>
-              <ul>
-                <li>Owned website strategy across EMEA, APAC & LATAM; SEO, content, UX, traffic acquisition and CRO.</li>
-                <li>Owned <strong>paid media</strong> & <strong>campaign strategy</strong> across markets; drove efficiency and pipeline impact.</li>
-                <li>Migrated and relaunched multi-country websites; improved Core Web Vitals and localisation.</li>
-                <li><strong>+100% organic traffic</strong> and consistent <strong>#0/#1 rankings</strong> for competitive terms; <strong>double-digit pipeline growth</strong>.</li>
-              </ul>
-            </article>
-
-            <article class="xp-card reveal">
-              <div class="head">
-                <span class="logo" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" width="20" height="20">
-                    <defs><linearGradient id="gL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
-                    <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#gL)"/>
-                  </svg>
-                </span>
-                <h4 class="role">Senior Digital Marketing / Web Product Manager — LexisNexis UK</h4>
-              </div>
-              <div class="meta">Nov 2016 – Nov 2019</div>
-              <p class="scope"><strong>Leadership & scope:</strong> Product owner for multiple sites; led SEO/CRO, marketing automation and UX programs with engineering, content and sales stakeholders.</p>
-              <ul>
-                <li>Owned and optimised lexisnexis.co.uk, store.lexisnexis.com, and tolley.co.uk.</li>
-                <li>Launched TolleyGuidance & LexisPSL → <strong>+575% traffic growth</strong> through SEO/CRO & platform launches.</li>
-              </ul>
-            </article>
-
-            <article class="xp-card reveal">
-              <div class="head">
-                <span class="logo" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" width="20" height="20">
-                    <defs><linearGradient id="gSg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#111827"/></linearGradient></defs>
-                    <rect x="0" y="0" width="32" height="32" rx="6" fill="url(#gSg)"/>
-                  </svg>
-                </span>
-                <h4 class="role">Head of Digital, Europe — Sungard AS</h4>
-              </div>
-              <div class="meta">Apr 2016 – Nov 2016</div>
-              <p class="scope"><strong>Leadership & scope:</strong> Website product owner for platform migration & global relaunch; led UX/UI architecture and content.</p>
-              <ul>
-                <li>Relaunched global websites with new UX/UI and platform migration.</li>
-                <li>Implemented SEO & Digital PR strategy; secured tier-one coverage.</li>
-              </ul>
-            </article>
-
-          </div>
-        </section>
-
-        <section class="section">
-          <h3 class="h3">Education</h3>
-          <p class="summary">Bournemouth University — BSc (Hons) Business Information Technology</p>
-        </section>
-      </main>
-    </div>
+      <section>
+        <h2>Experience</h2>
+        <div class="card trace-animate" id="personio-card">
+          <span class="logo">[Personio SVG here]</span>
+          <strong>Head of Website</strong> (Contract → Permanent) — Personio
+          <p>Launched largest website relaunch in company history. Owner of SEO + LLM optimisation. Increased MQLs 50%+ YOY. Conversion rate doubled YOY. Restructured web team and elevated visibility.</p>
+          <div class="trace-border"></div>
+        </div>
+        <div class="card trace-animate" id="slack-card">
+          <span class="logo">[Slack SVG here]</span>
+          <strong>Web & Campaign Manager</strong> — Slack
+          <p>Owned paid media + campaign strategy. Led CRO experiments, drove acquisition growth.</p>
+          <div class="trace-border"></div>
+        </div>
+        <div class="card">
+          <span class="logo">[ADP SVG here]</span>
+          <strong>Marketing Manager</strong> — ADP
+          <p>Owned paid media & campaign strategy. Drove brand visibility + lead pipeline.</p>
+        </div>
+        <div class="card">
+          <span class="logo">[LexisNexis SVG here]</span>
+          <strong>Senior Lead Web Manager</strong> — LexisNexis
+          <p>Managed large-scale B2B web projects, improved UX, site performance, and lead gen.</p>
+        </div>
+        <div class="card">
+          <span class="logo">[Sungard SVG here]</span>
+          <strong>Digital Marketing Lead</strong> — Sungard
+          <p>Delivered integrated digital campaigns, web content optimisation, and analytics insights.</p>
+        </div>
+      </section>
+    </main>
   </div>
-
-<script>
-/* Reveal-on-scroll for experience cards (kept subtle) */
-(function(){
-  var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          e.target.classList.add('is-visible');
-          io.unobserve(e.target);
-        }
+  <script>
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){e.target.classList.add("inview");}
       });
-    }, { threshold: 0.2 });
-    els.forEach(function(el){ io.observe(el); });
-  } else {
-    els.forEach(function(el){ el.classList.add('is-visible'); });
-  }
-})();
-</script>
-
+    },{threshold:0.4});
+    document.querySelectorAll('.trace-animate').forEach(card=>{observer.observe(card);});
+  </script>
 </body>
 </html>
