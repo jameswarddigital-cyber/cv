@@ -279,8 +279,7 @@
     background-size: 120% 120%, 120% 120%, 120% 120%, 120% 120%, 100% 100%;
     animation: bgFloat 60s ease-in-out infinite;
   }
-  @keyframes bgFloat{
-    0%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
+  
     50%{ background-position: 78% 8%, 10% 86%, 17% 12%, 90% 94%, 0 0; }
     100%{ background-position: 80% 6%, 12% 88%, 15% 10%, 92% 92%, 0 0; }
   }
@@ -290,8 +289,7 @@
     background-size: 200% 100%;
     animation: shimmer 16s linear infinite;
   }
-  @keyframes shimmer{
-    0%{ background-position: 0% 50%; }
+  
     100%{ background-position: 200% 50%; }
   }
 
@@ -334,8 +332,7 @@
     padding-bottom: 6px;
   }
   
-  @keyframes underlineSweep{
-    0%{ background-position: 0% 50%; }
+  
     100%{ background-position: 200% 50%; }
   }
 
@@ -352,8 +349,7 @@
     animation: headerSweep 7s linear infinite;
     border-radius:2px;
   }
-  @keyframes headerSweep{
-    0%{ background-position: 0% 50%; }
+  
     100%{ background-position: 200% 50%; }
   }
   /* Light theme: keep same gradient for consistency */
@@ -414,7 +410,7 @@
 
   /* Dash animation */
   .pen-draw{ animation: penDash 1.15s ease-out forwards; }
-  @keyframes penDash{ to { stroke-dashoffset: 0; } }
+   }
 
   /* Respect reduced motion */
   @media (prefers-reduced-motion: reduce){
@@ -426,7 +422,7 @@
   .pen-draw-slow{ animation: penDash 2.8s ease-out forwards; }
   .pen-draw-fast{ animation: penDash 0.9s ease-out forwards; }
   .pen-glow{ opacity:.55; }
-  @keyframes penDash{ to { stroke-dashoffset: 0; } }
+   }
   @media (prefers-reduced-motion: reduce){
     .pen-draw-slow, .pen-draw-fast{ animation: none !important; }
   }
@@ -453,22 +449,21 @@
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
 }
-@keyframes drawBorder {
-  to { stroke-dashoffset: 0; }
+
 }
 
 
 .personio-card { position: relative; overflow: hidden; }
 .trace-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .trace-border rect { stroke-dasharray: 100; stroke-dashoffset: 100; }
-@keyframes drawBorder { to { stroke-dashoffset: 0; } }
+ }
 
 
 /* --- XP card border trace (all cards) --- */
 .xp-card { position: relative; overflow: hidden; }
 .trace-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .trace-border rect { stroke-dasharray: 100; stroke-dashoffset: 100; }
-@keyframes drawBorder { to { stroke-dashoffset: 0; } }
+ }
 
 
 /* --- Refined XP card borders --- */
@@ -480,11 +475,9 @@
   stroke-width: 1; /* thinner */
   stroke-opacity: 0.7; /* softer */
 }
-@keyframes drawBorder {
-  to { stroke-dashoffset: 0; }
+
 }
-@keyframes fadeOutBorder {
-  0% { stroke-opacity: 0.7; }
+
   80% { stroke-opacity: 0.7; }
   100% { stroke-opacity: 0; }
 }
@@ -501,53 +494,23 @@
   animation: none;       /* no animation by default */
   fill: none;
 }
-@keyframes drawBorder { to { stroke-dashoffset: 0; } }
-@keyframes fadeOutBorder {
-  0% { stroke-opacity: 0.7; }
+ }
+
   80% { stroke-opacity: 0.7; }
   100% { stroke-opacity: 0; }
 }
 
 
 /* --- Tight header underline: static + one-time sweep with glow (no layout shift) --- */
-.header-penline{ position: relative; height: 4px; margin: 8px 0 10px; overflow: visible; }
-.header-penline .penline-base{
-  position:absolute; left:0; right:0; top:50%; transform: translateY(-50%);
-  height:2px; border-radius:9999px;
-  background: linear-gradient(90deg, #c9a3ef, #7be3ea);
-  opacity:.95;
-}
-.header-penline .penline-sweep{
-  position:absolute; left:-35%; width:70%; top:50%; transform: translateY(-50%);
-  height:2px; border-radius:9999px;
-  background: linear-gradient(90deg,
-    rgba(201,163,239,0) 0%,
-    rgba(201,163,239,1) 15%,
-    rgba(123,227,234,1) 50%,
-    rgba(167,139,250,1) 80%,
-    rgba(201,163,239,0) 100%
-  );
-  box-shadow: 0 0 12px rgba(123,227,234,0.45), 0 0 20px rgba(169,123,223,0.28);
-  opacity:1;
-}
-.header-penline .penline-glow{
-  position:absolute; left:-35%; width:70%; top:50%; transform: translateY(-50%);
-  height:8px; border-radius:9999px;
-  background: linear-gradient(90deg,
-    rgba(201,163,239,0) 0%,
-    rgba(201,163,239,0.45) 20%,
-    rgba(123,227,234,0.5) 50%,
-    rgba(167,139,250,0.42) 80%,
-    rgba(201,163,239,0) 100%
-  );
-  filter: blur(10px);
-  opacity:.85; pointer-events:none;
-}
-.header-penline.run .penline-sweep{ animation: penlineSweep 1.25s ease-out forwards; }
-.header-penline.run .penline-glow{ animation: penlineSweep 1.25s ease-out forwards; }
-@keyframes penlineSweep{ to { transform: translateX(240%); opacity: 0; } }
+
+
+
+
+
+
+ }
 @media (prefers-reduced-motion: reduce){
-  .header-penline .penline-sweep, .header-penline .penline-glow{ display:none; }
+  
 }
 
 
@@ -570,64 +533,130 @@ header hr,
 
 
 /* --- Header underline: slow ping-pong sweep with extended vibrant glow --- */
-.header-penline{ position: relative; height: 4px; margin: 8px 0 10px; overflow: visible; }
-.header-penline .penline-base{
-  position:absolute; left:0; right:0; top:50%; transform: translateY(-50%);
-  height:2px; border-radius:9999px;
-  background: linear-gradient(90deg, #c9a3ef, #7be3ea);
-  opacity:.95;
-}
+
+
 /* More vibrant, narrower hotspot for punchier color */
-.header-penline .penline-sweep{
-  position:absolute; left:-25%; width:50%; top:50%; transform: translateY(-50%);
-  height:2px; border-radius:9999px;
-  background: linear-gradient(90deg,
-    rgba(201,163,239,0) 0%,
-    rgba(201,163,239,1) 10%,
-    rgba(123,227,234,1) 40%,
-    rgba(120,190,255,1) 60%,
-    rgba(167,139,250,1) 85%,
-    rgba(201,163,239,0) 100%
-  );
-  box-shadow:
-    0 0 14px rgba(123,227,234,0.60),
-    0 0 28px rgba(169,123,223,0.45);
-  opacity:1;
-  will-change: transform, opacity;
-}
+
 /* Extended glow below the line */
-.header-penline .penline-glow{
-  position:absolute; left:-25%; width:50%; top:50%; transform: translateY(-30%);
-  height:14px; border-radius:9999px;
-  background: linear-gradient(90deg,
-    rgba(201,163,239,0) 0%,
-    rgba(201,163,239,0.55) 20%,
-    rgba(123,227,234,0.6) 50%,
-    rgba(167,139,250,0.5) 80%,
-    rgba(201,163,239,0) 100%
-  );
-  filter: blur(12px);
-  opacity:.95; pointer-events:none;
-  will-change: transform, opacity;
-}
+
 
 /* Ping-pong (left→right then right→left), then fade out */
-.header-penline.run .penline-sweep{
-  animation:
-    penlinePing 2.8s ease-in-out 2 alternate forwards,
-    sweepFade 0.6s ease forwards 5.8s;
-}
-.header-penline.run .penline-glow{
-  animation:
-    penlinePing 2.8s ease-in-out 2 alternate forwards,
-    sweepFade 0.6s ease forwards 5.8s;
-}
 
-@keyframes penlinePing{ to { transform: translate(250%, -50%); } }
-@keyframes sweepFade{ to { opacity: 0; } }
+
+
+ }
+ }
 
 @media (prefers-reduced-motion: reduce){
-  .header-penline .penline-sweep, .header-penline .penline-glow{ display:none; }
+  
+}
+
+
+
+to   { background-position: 200% 0; }
+}
+
+
+
+/* === Shimmer with vibrant topline + glow behind content === */
+.header-penline {
+  position: relative;
+  height: 4px;
+  overflow: visible;
+  z-index: 0; /* base stacking, so glow goes behind */
+}
+
+/* Shared gradient */
+:root {
+  --penline-gradient: linear-gradient(90deg,
+    #ff6bd6 0%,
+    #c9a3ef 20%,
+    #7be3ea 40%,
+    #5ab4ff 60%,
+    #a78bfa 80%,
+    #7ee7a6 100%);
+}
+
+
+
+/* Main shimmer line */
+.header-penline .penline-line {
+  height: 3px;
+  margin-top: 1px; /* just below topline */
+  border-radius: 2px;
+  background: var(--penline-gradient);
+  background-size: 200% 100%;
+  animation: shimmer 6s linear infinite;
+  position: relative;
+  z-index: 2;
+}
+
+/* Glow behind content */
+.header-penline .penline-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: var(--penline-gradient);
+  background-size: 200% 100%;
+  animation: shimmer 6s linear infinite;
+  filter: blur(32px) saturate(120%);
+  opacity: 0.55;
+  z-index: -1; /* sits behind page content */
+  -webkit-mask-image: linear-gradient(to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 12px,
+    rgba(0,0,0,0.5) 40%,
+    rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 12px,
+    rgba(0,0,0,0.5) 40%,
+    rgba(0,0,0,0) 100%);
+}
+
+/* Animation */
+@keyframes shimmer {
+  from { background-position: 0% 0; }
+  to   { background-position: 200% 0; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Vibrant animated topline (3px) */
+.header-penline .penline-topline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #ff9bf0 0%,
+    #d5b3ff 20%,
+    #9bf7ff 40%,
+    #7fdaff 60%,
+    #c5a6ff 80%,
+    #9fffb9 100%);
+  background-size: 200% 100%;
+  animation: shimmer 6s linear infinite;
+  z-index: 10;
 }
 
 </style>
@@ -646,7 +675,13 @@ header hr,
 <div class="title-penline" aria-hidden="true"></div>
       <p class="subtitle">Head of Website @ Personio · B2B SaaS · Marketing & Product Leader</p>
     </header>
-<div class="header-penline" aria-hidden="true"><div class="penline-base"></div><div class="penline-sweep"></div><div class="penline-glow"></div></div>
+<div class="header-penline" aria-hidden="true">
+  <div class="penline-topline"></div> <!-- ✅ CRISP ANIMATED LINE -->
+  <div class="penline-base"></div>
+  <div class="penline-sweep"></div>
+  <div class="penline-glow"></div>
+</div>
+
 
     <div class="grid">
       <!-- Sidebar -->
@@ -929,15 +964,7 @@ header hr,
 
 // Trigger one-time header underline sweep
 document.addEventListener('DOMContentLoaded', function(){
-  var line = document.querySelector('.header-penline');
-  if(!line) return;
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          line.classList.add('run');
-          io.disconnect();
-        }
+  var line = document.querySelector('
       });
     }, { threshold: 0.6 });
     io.observe(line);
